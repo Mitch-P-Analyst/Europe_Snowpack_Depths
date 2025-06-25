@@ -22,4 +22,8 @@ This project focused on isolating average snowpack depth across France's nationa
 - Clean and normailize entities for weather data anlysis
 - Calcualte average winter seasonal snowpack depth for each weather station
 
+## 📂 Key SQL Files
+- `france_weather_stations.sql`: Base filtering
+- `Avg_French_Snowpack_Depths.sql`: Aggregated table creation
+
   
