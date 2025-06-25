@@ -1,11 +1,20 @@
 # France_Snowpack_Depths
-A step-by-step SQL analysis of Snowpack depths and analysis in PostgresSQL. The data source showcases snowpack depths in France across numerous years at government weather stations.
+A PostgreSQL project exploring trends of average monthly snowdepths at French weather stations from Météo-France.
 
-Snow cover in the European Alps: 221 unqiue station and their observations of snow depth and depth of snowfall throughout the calander year.
+This project focused on isolating average snowpack depth across France's national weather stations for future analysis of snow depth trends.
 
-## SQL Files
+## Data Source
+- Provider: FR_METEOFRANCE
+- Coverage: Monthly snow depth (`hnsum`) per station
+- Time range: 1992–2024 (filtered to 2000+)
 
-- `01_initial_data_exploration.sql`: Initial exploration of the snowpack data.
-- `Data_Cleaning_Grouped.sql`: Data cleaning and grouping operations for the snowpack dataset.
-- `Stations & Avg.Monthly Snowfalls.sql` : Analysis of weather stations and their average monthly snowpack & snowfalls.
-- `Average Monthly Snowfalls & Snowpack.sql` : Analysis of average snowpack & snowfalls by Month
+## Database Schema
+
+- `fr_weather_stations`: Weather station metadata (latitude, longitude, elevation (metres))
+- `avg_monthly_snowpack`: Avgerage monthly snowpack per weather station (Filtered from year 2000 onwards)
+
+## Data Objectives
+- Clean and normailize entities for weather data anlysis
+- Calcualte average winter seasonal snowpack depth for each weather station
+
+  
