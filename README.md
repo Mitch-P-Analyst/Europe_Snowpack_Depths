@@ -4,8 +4,13 @@ A PostgreSQL project exploring trends of average monthly snowdepths at French we
 This project focused on isolating average snowpack depth across France's national weather stations for future analysis of snow depth trends.
 
 ## Data Source
-- Provider: FR_METEOFRANCE
-- Coverage: Monthly snow depth (`hnsum`) per station
+- Kaggle Dataset 'European Alps Snow Depth Observations'
+  - Referencing Zendo.org Records 5109574#
+    - meta_all.csv
+    - data_monthly_FR_METEOFRANCE.csv
+   
+### Data Manipulation
+- Monthly snow depth (`hnsum`) per station
 - Time range: 1992–2024 (filtered to 2000+)
 
 ## Database Schema
