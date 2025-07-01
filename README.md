@@ -29,7 +29,7 @@ This project focused on isolating average snowpack depth across weather stations
     [FK] Station_id,
     year,
     month,
-    hnsum
+    hnsum 
     )
 
 
