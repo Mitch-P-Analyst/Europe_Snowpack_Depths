@@ -8,7 +8,7 @@ CREATE TABLE weather_stations (
 	latitude NUMERIC(9,6),
 	longitude NUMERIC(9,6),
 	elevation NUMERIC(6,2),
-	country TEXT
+	country TEXT,
 	provider TEXT NOT NULL, 
 );
 
@@ -20,15 +20,10 @@ INSERT INTO weather_stations
 	elevation, 
 	country, 
 	provider)
-	SELECT 
-		name, 
-		latitude, 
-		longitude, 
-		elevation, 
-		country, 
-		provider
-	FROM 
-		csv_read('/Users/mitchellpalmer/Projects/Europe_Snowpack_Depths/Raw Data CSVs/European Alps Snow Depth Observations Data/meta_all.csv');
+	
+	COPY weather_stations
+	FROM './Raw Data CSVs/European Alps Snow Depth Observations Data/meta_all.csv'
+	DELIMITER ',' CSV HEADER;
 
 -- Create a table for monthly snowpack data
 CREATE TABLE monthly_snowpack (
@@ -41,7 +36,7 @@ CREATE TABLE monthly_snowpack (
 
 -- Create a table for each provider's snowpack data from 'Raw Data CSVs' folder
 -- For example, for MeteoFrance
-CREATE TABLE fr_meteofrance (
+CREATE TABLE fr_meteofrance 
 	( 
 	name text,
 	year INTEGER,
@@ -93,33 +88,10 @@ INSERT INTO fr_meteofrance
 	SCD30_gapfill, 
 	SCD50_gapfill, 
 	SCD100_gapfill)
-		SELECT
-			name, 
-			year, 
-			month, 
-			hnsum, 
-			hsmean, 
-			hsmax, 
-			SCD1, 
-			SCD1gt, 
-			SCD10, 
-			SCD20, 
-			SCD30, 
-			SCD50, 
-			SCD100, 
-			HSmean_gapfill, 
-			frac_gapfilled, 
-			HSmax_gapfill, 
-			SCD1_gapfill, 
-			SCD1gt_gapfill, 
-			SCD10_gapfill, 
-			SCD20_gapfill, 
-			SCD30_gapfill, 
-			SCD50_gapfill, 
-			SCD100_gapfill
-		FROM 
-			csv_read('/Users/mitchellpalmer/Projects/Europe_Snowpack_Depths/Raw Data CSVs/European Alps Snow Depth Observations Data/data_monthly_FR_METEOFRANCE.csv');
-
+		
+		COPY weather_stations
+		FROM './Raw Data CSVs/European Alps Snow Depth Observations Data/date_monthly_FR_METEROFRANCE.csv'
+		DELIMITER ',' CSV HEADER;
 -- Repeat the above steps for other providers, e.g., AT_HZB, CH_METEOSWISS, etc.
 
 -- Insert data from MeteoFrance into monthly_snowpack table
@@ -138,7 +110,8 @@ SELECT
 	fr_meteofrance.hnsum
 FROM fr_meteofrance
 JOIN weather_stations 
-	ON weather_stations.name = fr_meteofrance.name
+	ON LOWER(TRIM(weather_stations.name)) = LOWER(TRIM(fr_meteofrance.name))
+-- This join ensures that the station names match, accounting for case and whitespace differences
 
 -- Repeat the above insert for other providers, e.g. AT_HZB, CH_meteoswiss, etc.
 

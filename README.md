@@ -6,6 +6,16 @@ This project focused on isolating average snowpack depth across weather stations
 ## Data Source
 - Kaggle Dataset 'European Alps Snow Depth Observations'
   - Referencing Zendo.org Records 5109574#
+
+## Data Import Instructions (PostgreSQL)
+
+To load the raw metadata and snowpack data from CSVs into PostgreSQL, use the following command:
+
+```sql
+COPY weather_stations
+FROM './Raw Data CSVs/European Alps Snow Depth Observations Data/meta_all.csv'
+DELIMITER ',' CSV HEADER;
+
     
    
 ### Data Manipulation
