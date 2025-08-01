@@ -18,7 +18,7 @@ DELIMITER ',' CSV HEADER;
 
     
    
-### Data Manipulation
+## Data Manipulation
 - Metadata of 2979 Available weather stations condensed to 2794 in relavence to avaiable Monthly Snowpack Depths from 12 providers. 
 - Monthly snow depth (`hnsum`) per station
   - Null Values removed

@@ -217,11 +217,10 @@ FULL OUTER JOIN monthly_snowpack
 	ON weather_stations.station_id = monthly_snowpack.station_id
 
 -- Download your two successfully cleaned tables for analysis.
--- Filter for monthly_snowpack > year 2000
 
 SELECT *
 FROM weather_stations
 
 SELECT *
 FROM monthly_snowpack
-WHERE year >= 2000
+
