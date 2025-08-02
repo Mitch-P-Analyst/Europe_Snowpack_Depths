@@ -3,6 +3,8 @@ A PostgreSQL & Tableuau Visualisation project exploring trends of average monthl
 
 This project focused on isolating average snowpack depth across weather stations in the European Alps for future inferenital analysis of snow depth trends.
 
+# Data 
+
 ## Data Source
 - Kaggle Dataset 'European Alps Snow Depth Observations'
   - Referencing Zendo.org Records 5109574#
@@ -15,10 +17,12 @@ To load the raw metadata and snowpack data from CSVs into PostgreSQL, use the fo
 COPY weather_stations
 FROM './Raw Data CSVs/European Alps Snow Depth Observations Data/meta_all.csv'
 DELIMITER ',' CSV HEADER;
+```
 
     
    
 ## Data Manipulation
+
 - Metadata of 2979 Available weather stations condensed to 2794 in relavence to avaiable Monthly Snowpack Depths from 12 providers. 
 - Monthly snow depth (`hnsum`) per station
   - Null Values removed
@@ -48,8 +52,15 @@ DELIMITER ',' CSV HEADER;
 - Calcualte average winter seasonal snowpack depth for each weather station
 - Consolidate monthly snowpack data from 12 providers into one entity
 
-## 📂 Key SQL Files
-- `france_weather_stations.sql`: Base filtering
-- `Avg_French_Snowpack_Depths.sql`: Aggregated table creation
+
+# Part 1 Data Cleaning
+
+## 📂 SQL File
+- `Part_1_Data_Cleaning.sql`
+  - Base filtering
+  - Aggregated table creation
+
+
+# Part 2 EDA
 
   
