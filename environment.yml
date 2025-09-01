@@ -1,0 +1,32 @@
+name: data_env312
+channels:
+  - defaults
+  - https://repo.anaconda.com/pkgs/main
+  - https://repo.anaconda.com/pkgs/r
+dependencies:
+  - python=3.12
+  - ipykernel
+  - jupyterlab
+  - matplotlib
+  - numpy
+  - pandas
+  - scikit-learn
+  - seaborn
+  - geopandas
+  - nltk
+  - spacy
+  - sqlalchemy
+  - bokeh
+  - plotly
+  - scipy
+  - shapely
+  - statsmodels
+  - psycopg2
+  - lxml
+  - python-dotenv
+  - rasterio
+  - pymannkendall
+variables:
+  FOURSQUARE_API_KEY: Bearer EIXNH3TQFGGIDT5QYWZWDJR5GGHWNHEYLDDRIDMQEUKNROAK
+  World_Weather_API_Key: 74df83873be845558fe224059252207
+prefix: /opt/anaconda3/envs/data_env312
