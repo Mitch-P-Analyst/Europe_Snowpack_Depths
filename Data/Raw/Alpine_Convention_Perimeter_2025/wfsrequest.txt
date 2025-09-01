@@ -1,0 +1,1 @@
+https://www.atlas.alpconv.org/geoserver/ows?access_token=None?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3AAlpine_Convention_Perimeter_2025&outputFormat=SHAPE-ZIP&srs=EPSG%3A3035&format_options=charset%3AUTF-8

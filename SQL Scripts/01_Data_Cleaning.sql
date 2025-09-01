@@ -22,7 +22,7 @@ INSERT INTO weather_stations
 	provider)
 	
 	COPY weather_stations
-	FROM './Raw Data CSVs/European Alps Snow Depth Observations Data/meta_all.csv'
+	FROM './Data/Raw/European Alps Snow Depth Observations Data/meta_all.csv'
 	DELIMITER ',' CSV HEADER;
 
 -- Create a table for monthly snowpack data
@@ -90,7 +90,7 @@ INSERT INTO fr_meteofrance
 	SCD100_gapfill)
 		
 		COPY weather_stations
-		FROM './Raw Data CSVs/European Alps Snow Depth Observations Data/date_monthly_FR_METEROFRANCE.csv'
+		FROM './Data/Raw/European Alps Snow Depth Observations Data/date_monthly_FR_METEROFRANCE.csv'
 		DELIMITER ',' CSV HEADER;
 -- Repeat the above steps for other providers, e.g., AT_HZB, CH_METEOSWISS, etc.
 
