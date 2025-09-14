@@ -1,12 +1,12 @@
 # European Alps Average Monthly Snowpack Depths
-A PostgreSQL & Tableuau Visualisation project exploring trends of average monthly snowdepths from 2794 weather stations across Germany, Italy, France, Austria, Switerland.
+A PostgreSQL & Python Visualisation project exploring trends of average monthly snowdepths from 2794 weather stations across Germany, Italy, France, Austria, Slovenia & Switerland.
 
 This project focused on isolating average snowpack depth across weather stations in the European Alps for future inferenital analysis of snow depth trends.
 
 # Data 
 
 ## Content
-- 2000 stations from Austria, Germany, France, Italy, Switzerland, and Slovenia
+- 2794 stations from Germany, Italy, France, Austria, Slovenia & Switerland
 - Daily stations snow depth and depth of snowfall, as .zips, grouped by data provider. 
 - Monthly stations data as .zips, grouped by data provider. 
   - mean snow depth (hnsum)
@@ -21,8 +21,10 @@ This project focused on isolating average snowpack depth across weather stations
 
 ## Data Source
 - Kaggle Dataset 'European Alps Snow Depth Observations'
-  - Referencing [Zendo.org Records #5109574](https://zenodo.org/records/5109574)
-
+  - Referencing [Zenodo.org Records #5109574](https://zenodo.org/records/5109574)
+- Geographical Perimeter GDF European Alps Mask 
+  - Sourced from Alpine Convention region. Updated in 2025.
+    - [Alpine Convention Organsiation](https://www.atlas.alpconv.org/layers/geonode_data:geonode:Alpine_Convention_Perimeter_2025)
    
 ## Data Manipulation
 
@@ -54,6 +56,7 @@ This project focused on isolating average snowpack depth across weather stations
 - Clean and normailize entities for weather data analysis
 - Calcualte average winter seasonal snowpack depth for each weather station
 - Consolidate monthly snowpack data from 12 providers into one entity
+- Analyze statistically significant trends across numerous groupiings
 
 
 # Part 1 Data Cleaning
