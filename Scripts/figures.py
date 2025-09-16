@@ -101,7 +101,7 @@ def month_trends_fig(typical_station_month,avg_month, show: bool = False):
     import plotly.express as px
 
     # Months Orders
-    order = ['Jan','Feb','Mar','Apr','May','Nov','Dec']  # include only months you plot
+    order = ['Nov','Dec','Jan','Feb','Mar','Apr','May'] # Seasonal
 
     # Order Station Months
     typical_station_month['month_name'] = pd.Categorical(
@@ -112,6 +112,9 @@ def month_trends_fig(typical_station_month,avg_month, show: bool = False):
     # Consistent coloring
     palette   = px.colors.qualitative.Set2  # pick any qualitative palette you like
     color_map = {m: palette[i % len(palette)] for i, m in enumerate(months)}
+
+
+
 
     fig = make_subplots(
         rows=1, cols=2, column_widths=[0.65, 0.35], shared_yaxes=True,
@@ -193,12 +196,29 @@ def month_trends_fig(typical_station_month,avg_month, show: bool = False):
 
 # Country Coverage Number Of Stations
 def country_coverage(avg_country_month, show: bool = False):
+    import plotly.express as px 
+    import math
+    import pandas as pd
+   
     # Month order
-    order = ['Jan','Feb','Mar','Apr','May','Nov','Dec']
-    import plotly.express as px
+    order = ['Nov','Dec','Jan','Feb','Mar','Apr','May'] # Seasonal
+    
+
+       # --- consistent Set1 colors per country ---
+    countries = sorted(avg_country_month['country'].unique())
+    palette   = px.colors.qualitative.Set1                  # the Set1 scheme (9 colors)
+    # repeat palette if you have >9 countries
+    colors = (palette * math.ceil(len(countries)/len(palette)))[:len(countries)]
+    color_map = {c: col for c, col in zip(countries, colors)}
+
+    # 3) enforce order on the data and sort rows accordingly
     cov = avg_country_month.copy()
-    cov['month_name'] = cov['month_name'].astype('category')
-    fig = px.line(cov, x='month_name', y='median_stations_per_year', color='country',
+    cov['month_name'] = pd.Categorical(cov['month_name'],
+                                       categories=order, ordered=True)
+    cov = cov.sort_values(['country', 'month_name'])
+
+
+    fig = px.line(cov, x='month_name', y='median_stations_per_year', color='country', color_discrete_map=color_map,
                 markers=True, title='Coverage: Median Number of Stations Per Year (by month)',
                 labels={
                     'country':'Country'
@@ -210,4 +230,276 @@ def country_coverage(avg_country_month, show: bool = False):
         fig.show()
 
     return fig
+
+
+
+def country_station_slope_distrib(typical_station_month,avg_country_month, show: bool = False):
+    import plotly.express as px
+    import math
+    import plotly.graph_objects as go
+
+       # --- consistent Set1 colors per country ---
+    countries = sorted(avg_country_month['country'].unique())
+    palette   = px.colors.qualitative.Set1                  # the Set1 scheme (9 colors)
+    # repeat palette if you have >9 countries
+    colors = (palette * math.ceil(len(countries)/len(palette)))[:len(countries)]
+    color_map = {c: col for c, col in zip(countries, colors)}
+
+    # One row per station-month with columns: country, slope_sen_per_decade, p
+    station = typical_station_month  # if present
+
+    # Round values for chart
+    station_rounded = station.round(4)
+
+    fig = px.violin(station_rounded, x='country', y='slope_sen_per_decade', color='country',color_discrete_map=color_map,
+                    box=True, points='all', hover_data=['p','station_id','month_name'], height=500,
+                    labels={
+                        'month_name':'Month',
+                        'p':'p-value',
+                        'station_id':'Station ID',
+                        'country':'Country',
+                        'slope_sen_per_decade':'Slope / Decade'
+                    })
+    fig.add_hline(y=0, line_dash='dash', line_color='blue')
+
+    # Overlay macro country slopes as diamonds
+    over = avg_country_month.groupby('country', as_index=False).agg(
+        macro_slope=('slope_per_decade','median')  # or mean; up to you
+    )
+    fig.add_trace(go.Scatter(
+        x=over['country'], y=over['macro_slope'], mode='markers',
+        marker=dict(symbol='diamond', size=12, color='black'),
+        name='Macro (median across months)'
+    ))
+
+    fig.update_layout(title='Distribution of station slopes by country',
+                    yaxis_title='Slope (cm/decade)', xaxis_title='')
+    if show:   
+        fig.show()
+
+    return fig
+
+
+
+
+
+# Distribution of station slopes by month
+def month_station_slope_distrib(typical_station_month,avg_month, show: bool = False):
+    import plotly.express as px
+    import math
+    import plotly.graph_objects as go
+    import pandas as pd
+
+    # Months Orders
+    order = ['Nov','Dec','Jan','Feb','Mar','Apr','May'] # Seasonal
+
+    # Order Station Months
+    typical_station_month['month_name'] = pd.Categorical(
+        typical_station_month['month_name'], categories=order, ordered=True)
+    avg_month['month_name'] = pd.Categorical(avg_month['month_name'], categories=order, ordered=True)
+    months = list(order)
+
+    # Consistent coloring
+    palette   = px.colors.qualitative.Set2  # pick any qualitative palette you like
+    color_map = {m: palette[i % len(palette)] for i, m in enumerate(months)}
+
+
+    # One row per station-month with columns: country, slope_sen_per_decade, p
+    station = typical_station_month  # if present
+
+    # Round values for chart
+    station_rounded = station.round(4)
+
+    fig = px.violin(station_rounded, x='month_name', y='slope_theil_per_decade', color='month_name',color_discrete_map=color_map,
+                    box=True, points='all', hover_data=['p','station_id','country'], height=500,
+                    labels={
+                        'month_name':'Month',
+                        'p':'p-value',
+                        'station_id':'Station ID',
+                        'country':'Country',
+                        'slope_theil_per_decade':'Slope / Decade'
+                    })
+    fig.add_hline(y=0, line_dash='dash', line_color='blue')
+
+    # Overlay macro country slopes as diamonds
+    over = avg_month.groupby('month_name', as_index=False).agg(
+        macro_slope=('slope_per_decade','median')  # or mean; up to you
+    )
+    fig.add_trace(go.Scatter(
+        x=over['month_name'], y=over['macro_slope'], mode='markers',
+        marker=dict(symbol='diamond', size=12, color='black'),
+        name='Aggregated month series — median (♦)'
+    ))
+
+    fig.update_layout(title='Distribution of station slopes by month',
+                    yaxis_title='Slope (cm/decade)', xaxis_title='')
+    if show:   
+        fig.show()
+
+    return fig
+
+
+def country_month_heat(avg_country_month, typical_country_month, show: bool = False,
+                       annotate_percent: bool = True):
+    import numpy as np
+    import pandas as pd
+    import plotly.graph_objects as go
+
+    # Month order (seasonal)
+    order = ['Nov','Dec','Jan','Feb','Mar','Apr','May']
+
+    # Merge macro p and make a flag for the black dot
+    sig = avg_country_month.loc[:, ['country','month_name','p']].copy()
+    sig['sig'] = sig['p'] <= 0.05
+
+    H = typical_country_month.merge(sig, on=['country','month_name'], how='left')
+
+    # Pivot what we need
+    Z = (H.pivot_table(index='country', columns='month_name',
+                       values='median_slope_theil_per_decade')
+           .reindex(columns=order))
+    PCT = (H.pivot_table(index='country', columns='month_name',
+                         values='percent_sig')
+             .reindex(columns=order))
+    
+    N = (H.pivot_table(index='country', columns='month_name',
+                       values='num_stations'))
+
+    # -- Heatmap with custom hover that includes percent_sig
+    fig = go.Figure(go.Heatmap(
+        z=Z.values,
+        x=Z.columns, y=Z.index,
+        colorscale='RdBu_r', zmid=0,
+        colorbar=dict(title='cm/decade'),
+        # pass percent_sig as customdata so we can format in hover
+        customdata=PCT.values,
+        hovertemplate=(
+            "Month: %{x}<br>"
+            "Country: %{y}<br>"
+            "Median station slope: %{z:.2f} cm/decade<br>"
+            "<extra></extra>"
+        )
+    ))
+
+    # after you build Z (slopes) and PCT (percent_sig), also build N (counts)
+    CD = np.dstack([PCT.values, N.values])   # customdata: [percent, n]
+    fig.data[0].update(
+    customdata=CD,
+    hovertemplate=(
+        "Month: %{x}<br>"
+        "Country: %{y}<br>"
+        "Median station slope: %{z:.2f} cm/decade<br>"
+        "Significant share: %{customdata[0]:.0f}% (n_stations=%{customdata[1]:,})"
+        "<extra></extra>"
+    )
+)
+
+
+    # OPTIONAL: print the percent in each cell (e.g., "42%")
+    if annotate_percent:
+        for cy in Z.index:
+            for mx in Z.columns:
+                pct = PCT.loc[cy, mx]
+                if pd.notna(pct):
+                    # choose text color against the background: light cells => black, dark => white
+                    zval = Z.loc[cy, mx]
+                    font_color = 'white' if abs(zval) >= 1.5 else 'black'
+                    fig.add_trace(go.Scatter(
+                        x=[mx], y=[cy], mode='text',
+                        text=[f"{pct:.0f}%"],
+                        textfont=dict(color=font_color, size=12),
+                        showlegend=False, hoverinfo='skip'
+                    ))
+
+    fig.update_layout(
+        title=dict(
+        text=(
+            "Median station Theil–Sen slope by country × month"
+            "<br><sup>Labels show % of station–month series with MK p ≤ 0.05; "
+            "</sup>"
+        ),
+        x=0.5, xanchor='center'
+    ),
+        xaxis_title='', yaxis_title=''
+    )
+
+    if show:
+        fig.show()
+
+    return fig
+
+
+
+
+
+# Elevation Band Heatmap
+def elevation_band_heat(avg_elevation_month, show: bool = False):
+    import numpy as np
+    import plotly.express as px
+    import plotly.graph_objects as go
+
+    month_order = ['Nov','Dec','Jan','Feb','Mar','Apr','May']
+    y_order = ['Low Elevation','Mid Elevation','High Elevation']  # adjust if you prefer a different order
+
+    pivot = (avg_elevation_month
+            .pivot_table(index='elevation_band', columns='month_name', values='slope_per_decade')
+            .reindex(index=y_order, columns=month_order))
+    import numpy as np
+    import plotly.express as px
+    import plotly.graph_objects as go
+
+    # Pivot for z (slopes) and for custom p-values, same index/column order
+    Z = (avg_elevation_month.pivot_table(index='elevation_band',
+                                        columns='month_name',
+                                        values='slope_per_decade')
+        .reindex(index=y_order, columns=month_order))
+
+    P = (avg_elevation_month.pivot_table(index='elevation_band',
+                                        columns='month_name',
+                                        values='p')
+        .reindex(index=y_order, columns=month_order)).astype(float)
+
+    fig = px.imshow(
+        Z,
+        color_continuous_scale='RdBu_r',
+        origin='lower',
+        # keep the scale centered at 0 (optional but nice)
+        zmin=-np.nanmax(np.abs(Z.values)),
+        zmax= np.nanmax(np.abs(Z.values)),
+        labels=dict(color='Slope (cm/decade)'),
+        title='Macro Theil–Sen slope by elevation band × month (● = macro p ≤ 0.05)'
+    )
+
+    # ---- attach custom p-values to the HEATMAP and format its hover ----
+    # expand dims so we can reference customdata[0] in the hovertemplate
+    fig.data[0].customdata = np.expand_dims(P.values, axis=-1)
+    fig.data[0].hovertemplate = (
+        'Month: %{x}<br>'
+        'Elevation band: %{y}<br>'
+        'Slope: %{z:.2f} cm/decade<br>'
+        'p-value: %{customdata[0]:.4f}<extra></extra>'
+    )
+
+    # ---- optional: overlay significance dots (and show p to 4 dp) ----
+    sig = avg_elevation_month.query('p <= 0.05')
+    fig.add_trace(go.Scatter(
+        x=sig['month_name'],
+        y=sig['elevation_band'],
+        mode='markers',
+        marker=dict(color='black', size=8),
+        showlegend=False,
+        customdata=sig['p'].to_numpy(),
+        hovertemplate='Month: %{x}<br>Elevation band: %{y}<br>p-value: %{customdata:.4f}<extra></extra>'
+    ))
+
+    fig.update_xaxes(title_text='Month', categoryorder='array', categoryarray=month_order)
+    fig.update_yaxes(title_text='Elevation Band', categoryorder='array', categoryarray=y_order)
+    fig.update_coloraxes(colorbar_title='cm/decade')
+
+    if show:   
+        fig.show()
+
+    return fig
+
+
 #------------

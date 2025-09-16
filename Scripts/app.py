@@ -32,15 +32,18 @@ per_station = pd.read_csv(REPO_ROOT / 'Data/Cleaned/Tests/per_station_series.csv
 
 
 # Custom Figures
-from Scripts.figures import country_trends_fig
-from Scripts.figures import month_trends_fig
-from Scripts.figures import country_coverage
-
+from Scripts.figures import country_trends_fig, month_trends_fig, country_coverage, country_month_heat, elevation_band_heat, month_station_slope_distrib, country_station_slope_distrib
 
 coverage_fig = country_coverage(avg_country_month)
+
+country_station_disb = country_station_slope_distrib(typical_station_month, avg_country_month)
 country_fig = country_trends_fig(per_station,avg_country)
+
+month_station_disb = month_station_slope_distrib(typical_station_month, avg_month)
 month_fig = month_trends_fig(typical_station_month,avg_month)
 
+country_month_heatmap = country_month_heat(avg_country_month, typical_country_month)
+elevation_fig = elevation_band_heat(avg_elevation_month)
 
 # Create app
 app = dash.Dash(
@@ -86,17 +89,22 @@ app.layout = dbc.Container([
             html.H2("Average Country Snowpack Trends",className='display-4'),
             html.P("Utilsing Hamed-Rao Variants of Mann Kendall Statistical Testing, the average of each Country's Weather Station located in the European Alps, averaged ")
         ])),
+        dbc.Col(dcc.Graph(id='country_distrib',figure=country_station_disb),width=12),
+         dbc.Col(html.Div(className='chart-interpreation',children=[
+             html.P("Extreme values are visibly present in both postive and negative directions for countries France, Germany, Italy and Switzerland. While all 5,309 station-month time series present in this chart have undergone cleaning meeting thresholds of >= 30 years of data and Mann–Kendall statistica testing with Hamed–Rao autocorrelation adjustments, further analysis may be viable to review extreme values"),
+             html.P("All countries, except Italy, present a negative median Theil-Sen slope value per decade for the typical regional weather station. Comparatively, all countries present a negative mean/average Theil-Sen slope value per decade across their country, within the Interquartile Range of the typical-station distribution.")
+                    ])),
         dbc.Col(dcc.Graph(id='country-trends',figure=country_fig),width=12),
         dbc.Col(html.Div(className='chart-interpreation',children=[
             html.P("Countries Italy, Slovenia, and Austria exhibit statistically significant decreases in country-level mean snowpack depth, with Sen slopes of roughly −2 to −4 cm per decade. Germany and Switzerland show negative but non-significant trends (about −1 cm/decade), meaning the decreases are not distinguishable from zero at 𝛼 = 0.05. France shows a non-significant slight increase. Results are from Mann–Kendall (Hamed–Rao) tests applied to country-year average snowpack series; slopes are reported in cm per decade."),
         html.Hr()]))
         ]),
-
+        
     dbc.Row([
         dbc.Col([
             html.Div(id="data-insights", className="data-insights"),
             html.Div(id="sig-country-trends",className="sig-country-trends")
-        ], width=8),
+        ],width=8),
         dbc.Col([
             html.Div(id="country-details",className="country-details")
         ],width=4)
