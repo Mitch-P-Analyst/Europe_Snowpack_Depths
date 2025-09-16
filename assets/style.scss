@@ -4,10 +4,11 @@ $background-color: rgb(242, 246, 246);
 $text-color: #333;
 $header-color-bg: rgb(213, 224, 223);
 $header-color-text: #333;
-$header-font-size: 2.5em;
+$header-font-size: 3.0em;
 $box-shadow-color: rgb(0,0,0,0.1);
 $h2-color-bg: rgb(213, 224, 223);
-$h2-font-size: 1.75em;
+$h2-font-size: 2.50em;
+$h3-font-size: 1.75em;
 $p-font-size: 18px;
 $border-color: #ccc;
 
@@ -31,13 +32,39 @@ body{
     border-radius: 8px;
     box-shadow: 0 0 15px $box-shadow-color;
 
-    h1{
+    H1{
         margin: 0px;
         font-size: $header-font-size;
     }
-
+    
 }
 
+.introduction{
+    H3{
+        font-size: $h3-font-size;
+        text-align: center;
+    }
+    P{
+        font-size: $p-font-size;
+        text-align: left;
+    }
+}
+
+
+
+.section-header{
+    text-align: center;
+    margin: 20px 0px;
+    background-color: none;
+    color: $header-color-text;
+    padding: 20px 0px;
+    border-radius: 8px;
+
+    h2{
+        font-size: $h2-font-size;
+    }
+
+}
 
 .chart-header{
     text-align: center;
@@ -49,18 +76,31 @@ body{
 
     h2{
         margin: 0px;
-        font-size: $h2-font-size
+        font-size: $h2-font-size;
+    }
+    h3{
+        font-size: $h3-font-size;
     }
 
     P{
         font-size: $p-font-size;
+        text-align: left;
+    }
+    Ul{
+        font-size: $p-font-size;
+        text-align: left;
+    }
+    Li{
+        font-size: $p-font-size;
+        text-align: left;
     }
 }
 
-.chart-interpreation{
+.chart-interpretation{
     text-align: left;
     margin: 20px 5px;
     padding: 5px 5px;
+    font-size: $p-font-size;
     font-size: $p-font-size;
 
 }
