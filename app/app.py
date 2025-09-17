@@ -15,22 +15,47 @@ sys.path.insert(0, str(REPO_ROOT))                      # Assign REPO ROOT as Di
 ASSETS_DIR = REPO_ROOT / "app/assets"
 
 
+# Git LFS support
+LFS_POINTER_SIGNATURE = "version https://git-lfs.github.com/spec/v1"
 
+# AI Recommended procedure to ensure CSVs successful
+def ensure_lfs_data_downloaded(file_path: Path) -> None:
+    """Raise a helpful error if the target file is still an unfetched Git LFS pointer."""
+
+    if not file_path.exists():
+        return
+
+    try:
+        with file_path.open("r", encoding="utf-8", errors="ignore") as file_obj:
+            first_line = file_obj.readline()
+    except OSError:
+        return
+
+    if LFS_POINTER_SIGNATURE in first_line:
+        raise RuntimeError(
+            f"{file_path} appears to be a Git LFS pointer file. Please run `git lfs install && git lfs pull` to download "
+            "the required datasets before launching the Dash app."
+        )
+
+# AI Recommended procedure to ensure CSVs successful
+def read_dataset(relative_path: str, **kwargs):
+    file_path = REPO_ROOT / relative_path
+    ensure_lfs_data_downloaded(file_path)
+    kwargs.setdefault("index_col", False)
+    return pd.read_csv(file_path, **kwargs)
 
 # Load Files
 
 # Macro-perspective Trends
-avg_country = pd.read_csv(REPO_ROOT / 'Data/Cleaned/Tests/med_country_trends.csv',index_col=False)                  # Average Snowpack Depth Trend Per Country
-avg_country_month = pd.read_csv(REPO_ROOT / 'Data/Cleaned/Tests/med_country_month_trends.csv',index_col=False)      # Average Snowpack Depth Trend Per Country Month
-avg_month = pd.read_csv(REPO_ROOT / 'Data/Cleaned/Tests/med_month_trends.csv',index_col=False)                      # Average Snowpack Depth Trend per Month
-avg_elevation_month = pd.read_csv(REPO_ROOT / 'Data/Cleaned/Tests/med_elevation_month_trends.csv',index_col=False)  # Average Snowpack Depth Trend Per Elevation Bad Mong
-
+avg_country = read_dataset('Data/Cleaned/Tests/med_country_trends.csv')                  # Average Snowpack Depth Trend Per Country
+avg_country_month = read_dataset('Data/Cleaned/Tests/med_country_month_trends.csv')      # Average Snowpack Depth Trend Per Country Month
+avg_month = read_dataset('Data/Cleaned/Tests/med_month_trends.csv')                      # Average Snowpack Depth Trend per Month
+avg_elevation_month = read_dataset('Data/Cleaned/Tests/med_elevation_month_trends.csv')  # Average Snowpack Depth Trend Per Elevation Bad Mong
 # Micro-persective Trends
-typical_country = pd.read_csv(REPO_ROOT / 'Data/Cleaned/Tests/station-month-time-series-by-country.csv',index_col=False)                # Typical Snowpack Depth Trend of Weather Station Per Country 
-typical_country_month = pd.read_csv(REPO_ROOT / 'Data/Cleaned/Tests/station-month-time-series-by-country-month.csv',index_col=False )    # Typical Snowpack Depth Trend of Weather Station Per Country Month
-typical_station_month = pd.read_csv(REPO_ROOT / 'Data/Cleaned/Tests/station-month-time-series.csv',index_col=False)                     # Typical Snowpack Depth Trend of Weather Station Per Month
-per_station = pd.read_csv(REPO_ROOT / 'Data/Cleaned/Tests/per_station_series.csv',index_col=False)                                      # Annual Snowpack Depth Trend per Weather Station
-
+typical_country = read_dataset('Data/Cleaned/Tests/station-month-time-series-by-country.csv')                # Typical Snowpack Depth Trend of Weather Station Per Country 
+typical_country_month = read_dataset('Data/Cleaned/Tests/station-month-time-series-by-country-month.csv')    # Typical Snowpack Depth Trend of Weather Station Per Country Month
+typical_station_month = read_dataset('Data/Cleaned/Tests/station-month-time-series.csv')                     # Typical Snowpack Depth Trend of Weather Station Per Month
+per_station = read_dataset('Data/Cleaned/Tests/per_station_series.csv')                                      # Annual Snowpack Depth Trend per Weather Station
 
 # Custom Figures
 from Scripts.figures import country_trends_fig, month_trends_fig, country_coverage, country_month_heat, elevation_band_heat, month_station_slope_distrib, country_station_slope_distrib
@@ -68,12 +93,12 @@ app.layout = dbc.Container([
             html.P("Sourced from the Zenodo repository, project data included monthly measurements from 2794 weather stations across 12 providers in countries of the European Alps between 1865 - 2019. Through exploratory data analysis, requiring a minimum of 30 years of month-level data across winter months, and restricting to weather stations inside Alpine Convention's 2025 geographical perimeter of the Euroepean Alps, the analytic sample is composed of 795 stations. " \
             "These stations produced 5,309 station-month time series between the years of 1936-2019."),
             html.P("Trends were evaluated with the Mann–Kendall test (with Hamed–Rao autocorrelation adjustment) and Theil–Sen slope estimates, comparing patterns across months, countries, and elevation bands."),
-            html.P("Data is assessed to two methodical approaches;"),
+            html.P("Data is assessed to two approaches;"),
             html.Ul([
                 html.Li([html.Strong("Station-level (Micro) View — 'What is a typical station doing?'"), " For each station (and month), a time series of average snow depth is built, then an estimated Theil–Sen slope and MK p-value computed, followed by summary the distribution across stations by month/country/elevation. The median of station slopes represents the “typical station” and is robust to outliers."]),
                 html.Li([html.Strong("Aggregated-series (Macro) View — 'What is the area-wide series doing?'"), " For each grouping (e.g., month across all stations, a country, or an elevation band), stations are aggregated per year (using the median to reduce outlier influence) to form a single time series, then the estimated Theil–Sen slope and MK p-value on that series is computed. This gives an area-wide/seasonal trend."])
                 ]),
-            html.P("Note on aggregation effects. The macro slope (trend of an aggregated series) can differ from the micro median of station slopes (a known aggregation/Simpson-type effect). We therefore show and compare both throughout."),
+            html.P("Aggregation Effect : The macro slope (trend of an aggregated series) differs from the micro median of station slopes throughout this project. This is mentioned during analysis and therefore show and compare both throughout."),
             html.Hr()
             ]))
             ]),

@@ -17,9 +17,11 @@ Run the DASH Application to review the project summary
 - GeoJson
 
 ### Run Installation & Dash App
-``` bash  
+``` bash
 git clone https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths.git
 cd Europe_Snowpack_Depths
+git lfs install
+git lfs pull
 pip install -r requirements.txt
 python -m app
 ```
