@@ -7,11 +7,12 @@ import plotly as pt
 import dash_bootstrap_components as dbc 
 from pathlib import Path
 import sys 
+import os
 
 # Directories
 REPO_ROOT = Path(__file__).resolve().parent.parent      # Main Repo Directory
 sys.path.insert(0, str(REPO_ROOT))                      # Assign REPO ROOT as Directory 0 for Import searches
-ASSETS_DIR = REPO_ROOT / "assets"
+ASSETS_DIR = REPO_ROOT / "app/assets"
 
 
 
@@ -284,7 +285,7 @@ app.layout = dbc.Container([
     ])
 ])
 
+def main():
+    port = int(os.getenv("PORT", 8050))
+    app.run(host="0.0.0.0", port=port, debug=True)
 
-# Launch app
-if __name__ == "__main__":
-    app.run(debug=True)
