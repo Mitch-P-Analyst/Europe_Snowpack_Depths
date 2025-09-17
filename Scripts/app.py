@@ -19,10 +19,10 @@ ASSETS_DIR = REPO_ROOT / "assets"
 # Load Files
 
 # Macro-perspective Trends
-avg_country = pd.read_csv(REPO_ROOT / 'Data/Cleaned/Tests/avg_country_trends.csv',index_col=False)                  # Average Snowpack Depth Trend Per Country
-avg_country_month = pd.read_csv(REPO_ROOT / 'Data/Cleaned/Tests/avg_country_month_trends.csv',index_col=False)      # Average Snowpack Depth Trend Per Country Month
-avg_month = pd.read_csv(REPO_ROOT / 'Data/Cleaned/Tests/avg_month_trends.csv',index_col=False)                      # Average Snowpack Depth Trend per Month
-avg_elevation_month = pd.read_csv(REPO_ROOT / 'Data/Cleaned/Tests/avg_elevation_month_trends.csv',index_col=False)  # Average Snowpack Depth Trend Per Elevation Bad Mong
+avg_country = pd.read_csv(REPO_ROOT / 'Data/Cleaned/Tests/med_country_trends.csv',index_col=False)                  # Average Snowpack Depth Trend Per Country
+avg_country_month = pd.read_csv(REPO_ROOT / 'Data/Cleaned/Tests/med_country_month_trends.csv',index_col=False)      # Average Snowpack Depth Trend Per Country Month
+avg_month = pd.read_csv(REPO_ROOT / 'Data/Cleaned/Tests/med_month_trends.csv',index_col=False)                      # Average Snowpack Depth Trend per Month
+avg_elevation_month = pd.read_csv(REPO_ROOT / 'Data/Cleaned/Tests/med_elevation_month_trends.csv',index_col=False)  # Average Snowpack Depth Trend Per Elevation Bad Mong
 
 # Micro-persective Trends
 typical_country = pd.read_csv(REPO_ROOT / 'Data/Cleaned/Tests/station-month-time-series-by-country.csv',index_col=False)                # Typical Snowpack Depth Trend of Weather Station Per Country 
@@ -64,7 +64,7 @@ app.layout = dbc.Container([
     dbc.Row([
         dbc.Col(html.Div(className='introduction',children=[
             html.H3("A statistical analysis of average snowpack depth across weather stations in the European Alps"),
-            html.P("Data was sourced from the Zenodo repository and included monthly measurements from 2794 weather stations across 12 providers in countries of the European Alps between 1865 - 2019. Through exploratory data analysis requiring a minimum of 30 years of month-level data across winter months, and restricting to weather stations inside the Alpine Convention 2025 geographical permitoer of the Euroepean Alpes, the analytic sample is composed of 795 stations. " \
+            html.P("Sourced from the Zenodo repository, project data included monthly measurements from 2794 weather stations across 12 providers in countries of the European Alps between 1865 - 2019. Through exploratory data analysis, requiring a minimum of 30 years of month-level data across winter months, and restricting to weather stations inside Alpine Convention's 2025 geographical perimeter of the Euroepean Alps, the analytic sample is composed of 795 stations. " \
             "These stations produced 5,309 station-month time series between the years of 1936-2019."),
             html.P("Trends were evaluated with the Mann–Kendall test (with Hamed–Rao autocorrelation adjustment) and Theil–Sen slope estimates, comparing patterns across months, countries, and elevation bands."),
             html.Hr()
@@ -75,13 +75,13 @@ app.layout = dbc.Container([
         dbc.Col(html.Div(className='chart-header',
                          children=[
                              html.H2("Station Coverage for each Country",className='display-2'),
-                             html.P("This chart shows, by country and winter month, the median number of stations per year that pass the analysis filters of ≥ 30 years of data and ≥ 10 stations/year. It communicates quality check on data coverage for the country and month-level trend plots that follow.")
+                             html.P("This chart shows, by country and winter month, the median number of stations per year that pass the analysis filters of ≥ 30 years of data and ≥ 10 stations/year. It communicates quality check on data coverage for the country and month level trend plots that follow.")
                              ])),
         dbc.Col(dcc.Graph(id='country-coverage',figure=coverage_fig),width=12),
         dbc.Col(html.Div(className='chart-interpretation',
                          children=[
                              html.Ul([
-                                 html.Li("Italy compises the month with the lowest median quantity of weather stations subject to statsitical anlaysis at 42 in May and November."),
+                                 html.Li("Italy has the lowest median quantity of weather stations subject to statsitical anlaysis at 42 in months May and November."),
                                  html.Li("Germany, Switerzland, France, Slovenia range bewteen 48 - 151 across all winter months."),
                                  html.Li("Austria provides a consistently high quantity of weather stations meeting threshold requirements at a minimum of 358 stations.")]),
                              html.Hr()
@@ -97,14 +97,14 @@ app.layout = dbc.Container([
     dbc.Row([
         dbc.Col(html.Div(className='chart-header',children=[
             html.H3("Distribution Of Station Slopes Per Country Month",className='display-3'),
-            html.P("This chart shows the distribution of station–month time-series slopes (Theil–Sen, cm/decade) by country. Each dot is one station-month series summarized in the violin spread. \
-                   The black ♦ marks a macro signal, the median of the country-month slopes across the winter season (Nov–May), which captures each country’s central seasonal trend while remaining robust to outliers and month-to-month imbalance. \
+            html.P("This chart shows the distribution of station–month time-series slopes (Theil–Sen, cm/decade) by country. Each dot in the violin spread is an individual station-month series. \
+                   The black diamond ♦ marks a macro signal, showing the Theil–Sen slope (cm/decade) from the Hamed–Rao MK adjustment of the median of the country-level seasonal aggregated series. This captures each country’s central seasonal trend while remaining robust to outliers and month-to-month imbalance. \
                    The horizontal dashed blue line is zero-slope change; values below it indicate long-term declines.")
         ])),
         dbc.Col(dcc.Graph(id='country_distrib',figure=country_station_disb),width=12),
         dbc.Col(html.Div(className='chart-interpretation',children=[
-             html.P("Extreme values are visibly present in both postive and negative directions for countries France, Germany, Italy and Switzerland. While all 5,309 station-month time series present in this chart have undergone cleaning meeting thresholds of >= 30 years of data and Mann–Kendall statistica testing with Hamed–Rao autocorrelation adjustments, further analysis may be viable to review extreme values"),
-             html.P("All countries, except Italy, present a negative median Theil-Sen slope value per decade for the typical regional weather station. Comparatively, all countries present a negative mean/average Theil-Sen slope value per decade across their country, within the Interquartile Range of the typical-station distribution.")
+             html.P("Extreme values are present in both postive and negative directions for countries France, Germany, Italy and Switzerland. While all 5,309 station-month time series presented in this chart have undergone cleaning, meeting thresholds of >= 30 years of data during Mann–Kendall testing, further analysis may be viable to review extreme values"),
+             html.P("All countries, except Italy, present a negative median Theil-Sen slope value per decade for the typical regional weather station. Comparatively, all countries except Switerzland present a negative Theil-Sen slope across the aggreated country-level. This variation between macro-aggreated median in comparison to the median station value raises awareness about aggregation effect causing potential bias.")
                     ])),
         dbc.Col(html.Div(className='chart-header',children=[
             html.H3("Country-Year Mean Snowpack Series",className='display-3'),
@@ -129,7 +129,7 @@ app.layout = dbc.Container([
 
         dbc.Col(dcc.Graph(id='country-trends',figure=country_fig),width=12),
         dbc.Col(html.Div(className='chart-interpretation',children=[
-            html.P("Countries Italy, Slovenia, and Austria exhibit statistically significant decreases in country-level mean snowpack depth, with Sen slopes of roughly −2 to −4 cm per decade. Germany and Switzerland show negative but non-significant trends (about −1 cm/decade), meaning the decreases are not distinguishable from zero at 𝛼 = 0.05. France shows a non-significant slight increase. Results are from Mann–Kendall (Hamed–Rao) tests applied to country-year average snowpack series; slopes are reported in cm per decade."),
+            html.P("Countries Italy, Slovenia, Austria and Germany exhibit statistically significant decreases in country-level snowpack depth, with Theil-Sen slopes of  −1.51 to −2.84 cm per decade. Switzerland shows a negative, but non-significant trend of -0.65 cm/decade. Therefore this decrease is not distinguishable from zero at 𝛼 = 0.05. France shows a non-significant and 0.00 cm slope."),
         html.Hr()]))
         ]),
         
@@ -142,38 +142,39 @@ app.layout = dbc.Container([
     dbc.Row([
         dbc.Col(html.Div(className='chart-header',children=[
             html.H3("Distribution Of Station Slopes Per Month",className='display-3'),
-            html.P("This chart shows the distribution of Theil–Sen slopes (cm/decade) for all station–month time series. Each dot is one station-month series for the violin summarizes its spread including summary statistics. "),
-            html.P('The black ♦ is the month’s median across stations from a a macro-aggreated summary for that month. Diamonds below 0 indicate that the median station-month series from aggreated tests show declines that month; the more negative, the steeper the decline.'),
+            html.P("This chart shows the distribution of Theil–Sen slopes (cm/decade) for all station–month time series. Each dot in the violin spread is an individual station-month series."),
+            html.P('The black diamond ♦ is the Theil-Sen Slope of the median value in aggregated month-series for that respective month. Diamonds below a value of 0 indicate that the month-series Theil-Sen slope declines that month; the more negative, the steeper the decline.'),
             html.P('The horizontal dashed blue line is zero-slope change; values below it indicate long-term declines.')
         ])),
         dbc.Col(dcc.Graph(id='month_distrib',figure=month_station_disb),width=12),
         dbc.Col(html.Div(className='chart-interpretation',children=[
-            html.P('Each violin shows the distribution of station-month Theil–Sen slopes for a given month (cm/decade). The dashed blue line marks zero slope. The black ♦ is the month-aggregate median—the median slope from the aggregated month series (i.e., one series per month created by aggregating stations and then estimating its trend.'),
+            html.P('Each violin is the distribution of station–month Theil–Sen slopes (cm/decade) for that month. The dashed blue line marks zero slope.'),
+            html.P(['The black diamond ♦ is the Theil–Sen slope of the Marco monthly-series for each month (Nov–May). The Marco monthly series the aggregation of stations by month to form one time series, then a single Theil–Sen slope is computed on the',html.Strong('median value'),' of that series.']),
             html.P(["A difference is present between the ",
-                    html.Strong("Macro (aggregated) median (per month) ♦"),
+                    html.Strong("Macro month-series ♦"),
                     " and the ",
-                    html.Strong("Station-level median (per month)"),
-                    " box (the IQR, from Q1 to Q3) for each month. ",
-                    "This difference in median in the macro-aggregation tends to yield differents slopes than the typical station and therefore producing an aggregation bias. How much the month-aggregate median differs from the typical station's median is mentioned below."]),
+                    html.Strong("Station-level median IQR box "),
+                    "for each month. This difference in slope between the aggregated month-series and station-level median yields stronger negative results for core winter months (Dec, Jan, Feb) and postive results for fringe winter months (Nov, Mar, Apr) as a result of aggregation. Observing this difference in trends as an aggregation effect should be noted for potential biases, along with further consideration for aggreation affect on core verus fringe winter months. How much the month-aggregate median differs from the typical station's median is mentioned below."]),
+            html.P('Aggregation effect (macro vs. typical station)'),
             html.Ul([
-                html.Li("February shows the largest aggregation bias (−2.1 cm/decade): the month-aggregate median is much more negative than the typical station’s median."),
-                html.Li("May and December also skew more negative (−1.09 and −0.83 cm/decade)."),
-                html.Li("November and March are slightly positive (+0.36 and +0.34 cm/decade), meaning the aggregate month series is a bit less negative than the typical station’s behaviour in those months.")
+                html.Li("Core winter months December, January and February show large negative aggregation effects of -1.11 , -0.21 and -1.72 cm/decade respectively. Therefore the macro series is more negative than the typical station (stronger declines)."),
+                html.Li("Fringe winter months November, March and April show positive aggregation effects of +0.54 , +0.83 and +0.60 cm/decade respectively. Skewing the opposite direction to the other months mentioned above. Therefore the macro series is more positive than the typical station"),
+                html.Li("May exhibits no change in Theil-Sen slope between station-level and aggreated month-series.")
                 ]),
-            html.P("Across months, distributions remain predominantly on the negative side of zero, consistent with overall declines in snowpack, but the magnitude of that decline depends on how you aggregate."),
+            html.P("Across months, distributions remain predominantly on the negative side of zero, consistent with overall declines in snowpack, but the the magnitude depends on whether you summarize first (macro ♦) or summarize last (median of station slopes)."),
             html.P([html.Strong("Area Of Concern")]),
-            html.P("Aggregating first (then estimating a single trend) does not always equal the median of station-level trends. Seasonal changes in coverage, station heterogeneity, and nonlinearity can make the aggregate month series exaggerate winter-core declines (Feb) relative to the typical station, and occasionally mute them (Nov/Mar)."),
-            html.P("Further analysis of this aggregation bias should be applicable to continuing this project.")
+            html.P("The diamond ♦ macro-perspectives, of aggregating first (then estimating a single trend) varies from the median of station-level trends by a range of +0.83 to -1.72 cm/decade. Seasonal changes appears to exaggerate fringe winter months, relative to the typical station, and mute core winter months in comparison."),
+            html.P("Further analysis of this aggregation effect should be applicable to continuing this project.")
         ]))
     ]),
 
     dbc.Row([
         dbc.Col(html.Div(className='chart-header',children=[
-            html.H3("Month Mean Snowpack Series",className='display-3'),
+            html.H3("Month Snowpack Series",className='display-3'),
             html.P("This figure uses the same dataframes of station-month-level and month-level trend results. Each point is the Theil–Sen slope (cm/decade) and p-value computed on the month-average time snowpack series of Nov -> May, produced from the Hamed–Rao autocorrelation adjustment variant of the Mann-Kendall test."),
             html.Ul([
-                html.Li([html.Strong("Left Chart: "), "Station-Months: each point is a station-month time series Theil–Sen slope plotted against its two-sided MK p-value."]),
-                html.Li([html.Strong("Right Chart: "),"Month: one point per Month from MK applied to the Month mean snowpack time series."]),
+                html.Li([html.Strong("Left Chart: "), "Each point is a station-month time series Theil–Sen slope plotted against its two-sided MK p-value."]),
+                html.Li([html.Strong("Right Chart: "),"One point per Month from MK applied to the Month-level snowpack time series."]),
                 html.Li([html.Strong("Guide Lines: "),
                          html.Ul([
                              html.Li("The horizontal dashed red line marks the significance threshold (α = 0.05); points below it are statistically significant. "),
@@ -184,9 +185,10 @@ app.layout = dbc.Container([
         ])),
         dbc.Col(dcc.Graph(id='month-trends',figure=month_fig),width=12),
         dbc.Col(html.Div(className='chart-interpretation',children=[
-            html.P("Months April and May exhibit statistically significant decreases in European-Alps mean snowpack depth, with Sen slopes of roughly  -1.60 and -1.10 cm per decade respectively. All other winter months, February, December, January, November and March show negative but non-significant trends, with Sen Slopes of roughly -0.55 to -1.90 cm per decade. \n "
-            "These decreases ccannot be distinguished from zero trend due to insufficient evidence (α=0.05). "),
-            html.P("Further analysis can investiage changes in weather patterns of Springs months (April, May) to link correlation of decreasing Sen slopes of mean snowpack depths. ")
+            html.P("December exhibits a statistically significant decrease in snowpack depth, with Theil-Sen slopes of -2.22 cm/decade. May is also statistically significant, but exhibits a Theil-Sen slope of 0.00."),
+            html.P("All other winter months show non-significant trends, with Theil-Sen slopes between 0.00 to -1.57 cm/decade." \
+            "These other months cannot be distinguished from zero trend due to insufficient evidence (α=0.05). "),
+            html.P("Further analysis should investigate changes in weather patterns and temperature changes of fringe months to link correlation of decreasing Theil-Sen slopes of snowpack depths.")
         ]))
     ]),
 
@@ -194,14 +196,14 @@ app.layout = dbc.Container([
         dbc.Col(html.Div(className='chart-header',children=[
             html.H3("Country Month Heatmap",className='display-3'),
             html.P("The following figure shows the median Theil-Sen slope per decade for the typical station of each country-month."),
-            html.P("The value ontop of heat squares is the share of the station-month series that are statistically significant by the Hamed–Rao–adjusted Mann–Kendall test (two-sided, α = 0.05)."),
+            html.P("The value presented on each heat square is the share of the station-month series that is statistically significant by the Hamed–Rao–adjusted Mann–Kendall test (two-sided, α = 0.05)."),
             html.Ul([
                 html.Li([
                     html.Strong("Guide Lines: "),
                     html.Ul([
                         html.Li("Use color to compare the magnitude and direction of the typical (median) station trend for each country-month."),
-                        html.Li("Use the percent lbel to gauge how widespread that statistically significant trend is across stations for that country-month."),
-                        html.Li("The denominator for each tile is the number of stations available after quantility control in that country-month (Hover statistic:  'n_stations').")
+                        html.Li("Use the percent label to gauge how widespread that statistically significant trend is across stations for that country-month."),
+                        html.Li("The denominator for each tile is the number of stations available after quantility control in that country-month (Hover statistic: 'n_stations').")
                     ])
                 ])
             ])
@@ -210,16 +212,17 @@ app.layout = dbc.Container([
         dbc.Col(html.Div(className='chart-interpretation',children=[
             html.P(["Each tile shows the ",
                     html.Strong("median station-level"),
-                    " Theil–Sen slope (cm/decade) for a given country-month. Color encodes the slope (blue = decline, red = increase; centered at 0), and the label is the share of station-month series that are statistically significant by the Hamed–Rao–adjusted Mann–Kendall test (two-sided, α = 0.05). Hover text includes the exact slope and the number of stations contributing to that cell."]),
+                    " Theil–Sen slope (cm/decade) for a given country-month."]),
             html.P([html.Strong("Declines dominate. "),"Most tiles are blue, indicating negative trends in mean snowpack depth."]),
             html.Ul([
-                html.Li("Slovenia (Nov–Dec): Declines of 2.5 - 3.48 cm/decade with 43–64% of station series significant."),
+                html.Li("Slovenia (Nov–Dec): Declines of 1.11 - 3.48 cm/decade with 43 – 64% of station series significant."),
                 html.Li("Italy (Apr): Declines at 2.55 cm/decade with 50% significance."),
                 html.Li("France (Mar): Declines at 4.09 cm/decade with 26% significant."),
-                html.Li("Austria (Nov) and Switzerland (Apr) show significant shares on fringe months of 3.33 - 2.64 cm/decade at 41% and 31% significance respestively.")
+                html.Li("Austria (Nov) and Switzerland (Apr) show significant shares on fringe months of 3.33 - 2.64 cm/decade at 41% and 31% significance respestively."),
+                html.Li("April as month is strongly declining across all countries with reasonably hire shares of statistical signifiance across each tile.")
             ]),
             html.P("Many cells have low station-level significance. In those months/countries, the median slope should be viewed as descriptive signal rather than broad, station-level consensus."),
-            html.P("Seasonality & geography matter. The trends seem to be more negative during the fringe months of early winter and early spring for several countries. Mowever, the month of May lacks strong signifinace and any station-level trends due to overwhelming median levels at 0.00 cm/decade. This finding is conflictive with Macro Aggregation trends of previous charts and is an objective for further analysis")
+            html.P("Seasonality & geography matter. The trends seem to be more negative during the fringe months of early winter and early spring for several countries. However, the month of May lacks strong signifinace and any station-level trends due to overwhelming median levels at 0.00 cm/decade.")
         ])),
         html.Hr()
     ]),
@@ -232,8 +235,8 @@ app.layout = dbc.Container([
     dbc.Row([
         dbc.Col(html.Div(className="chart-header",children=[
             html.H3("Elevation Band Heatmap",className="display-3"),
-            html.P(["The following figure shows the Theil-Sen slope per decade for the for ",html.Strong("month-level mean snowpack depth for each Elevation Band")," across the European Alps."]),
-            html.P("The calculated slope is the Theil–Sen estimate computed on the yearly mean snowpack series for each elevation band and month (i.e., slope of the band-level mean across years)"),
+            html.P(["The following figure shows the Theil-Sen slope per decade for the ",html.Strong("month-level median snowpack depth for each Elevation Band")," across the European Alps."]),
+            html.P("The calculated slope is the Theil–Sen estimate computed on the yearly median snowpack series for each elevation band and month (i.e., slope of the elevation band-level median across years)"),
             html.Ul([
                 html.Li("Guide Lines: "),
                 html.Ul([
@@ -255,7 +258,7 @@ app.layout = dbc.Container([
             html.P("All elevation bands see a general decline in average snowpack depth per month. Strongest declines at High Elevation (>2,000 m). All tiles predominantly blue, with April showing the largest decrease, but at an extreme level even with ● p ≤ 0.05."),
             html.P(["High Elevation has fewer contributing stations (hover shows median stations/year ≈ 13–19 and years of data). "
             "Data cleaning requirements during MK testing (≥ 30 station-years per time-month series) reduced station availability, especially at High Elevation (a reduction of 60 to ~16). The median stations/year in the hovers reflect this post-cleaning support. ",html.Strong("Treat those cells as higher-variance")," as small samples can yield unstable estimates."]),
-            html.P("Late-season signals at lower bands: In May, both Mid (1,000–2,000 m) and Low (≤1,000 m) show small but significant declines (●), while earlier months at these bands are weak or non-significant."),
+            html.P("Late-season signals at lower bands: In May, the Mid Elevation(1,000–2,000 m) shows a small but significant declines (●), while earlier months at these bands are weak or non-significant."),
             html.P("P-values are unadjusted across 21 cells; small significant signals (especially in May at lower bands) should be interpreted with that context.")
         ])),
         html.Hr()
@@ -263,10 +266,10 @@ app.layout = dbc.Container([
     dbc.Row([
         dbc.Col(html.Div(className="conclusion",children=[
             html.H2("Conclusion",className='display-2'),
-            html.P("Alpine winter snowpack is declining, with statistically significant, strongest losses at high elevations in late winter/early spring, led by Italy, Slovenia, and Austria. While aggregated summaries often look more negative than station-level medians."),
-            html.P([html.Strong("Station-level Trends "),"are present across most countries and months. A majority of station–month series show negative Theil–Sen slopes; These distribution centers sit below zero. Recurrent patterns of stronger declines in early spring (especially at high elevations) are evident. Further outlier cleaning may refine a small share of extreme points but does not change the overall picture."]),
-            html.P([html.Strong("Geographical Context "),"Italy, Slovenia, and Austria display statistically significant decreases across several months. France, Switzerland, and Germany generally show smaller or non-significant declines. These east/south vs. west/north differences provide potential further analysis on regional storm tracking and snowfall changes."]),
-            html.P([html.Strong("Aggregation Bias "),"observed when comparing the median of station distributions with the macro (country/month) median. This consistent gap shows macro aggregation often yields more negative slopes. For interpretation and reporting, detailing which summary is reference recommendation is to use both medians."]),
+            html.P("Alpine winter snowpack is declining, with statistically significant, strongest losses at high elevations in early winter/early spring, led by Italy, Slovenia, Austria and Germany. While aggregated summaries are exaggerated in core months and muted in fringe months compared to station-level medians."),
+            html.P([html.Strong("Station-level Trends "),"are present across most countries and months. A majority of station–month series show negative Theil–Sen slopes with distribution centers below zero. Recurring patterns of stronger declines in early winter and early spring (especially at high elevations) are evident. Further outlier cleaning may address a small share of extreme points, but does not change the overall picture."]),
+            html.P([html.Strong("Geographical Context "),"Italy, Slovenia and Austria display strong statistically significant decreases across several months. France, Switzerland, and Germany generally show smaller or non-significant declines. These south/east vs. north/west differences provide potential further analysis on regional storm tracking and snowfall changes."]),
+            html.P([html.Strong("Aggregation Effect "),"is observed when we compare the Theil–Sen slope of the country-level and month-level aggregated winter series (stations aggregated first, then trend estimated) with the median of station-level trends (or month-level medians). We see a consistent gap between the aggregated series and the station-level / month-level medians, usually yielding a more negative slope for core months and more positive slope for fringe months from aggregations. This project does not dive into proving a directional distortion from aggregation, therefore for interpretation, report both summaries and state explicitly which one you reference."]),
             html.P([html.Strong("Date coverage "), "and strict quality control cleaning (≥ 30 years per station, Hamed–Rao MK adjustment) reduced the dataset from 2,794 stations to 795. This improved statistical reliability but left fewer high-elevation series, which should be read with appropriate caution. Limited station counts also explain isolated non-significant tiles in the country-month and elevation-band heatmaps. Expanding to additional sources on Zenodo could strengthen coverage."]),
             html.H3("References",className='display-3'),
             html.Ul([

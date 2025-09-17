@@ -19,7 +19,7 @@ def country_trends_fig(per_station,avg_country, show: bool = False):
 
     fig = make_subplots(
         rows=1, cols=2, column_widths=[0.65, 0.35], shared_yaxes=True,
-        subplot_titles=("Stations (Theil–Sen slope per decade)", "Country averages")
+        subplot_titles=("Stations (Theil–Sen slope per decade)", "Country")
     )
 
     # One legend item per country; traces that share legendgroup toggle together
@@ -71,7 +71,7 @@ def country_trends_fig(per_station,avg_country, show: bool = False):
                 showlegend=False,    # use the same legend item as the left trace
                 hovertemplate=(
                     "<b>%{text}</b><br>"
-                    "Avg slope: %{x:.2f} cm/decade<br>"
+                    "Slope: %{x:.2f} cm/decade<br>"
                     "p: %{y:.3f}<extra></extra>"
                 ),
             ),
@@ -85,7 +85,7 @@ def country_trends_fig(per_station,avg_country, show: bool = False):
 
     # Nice defaults
     fig.update_layout(
-        title="Hamed–Rao–adjusted MK; Theil–Sen slopes of mean snowpack depths",
+        title="Hamed–Rao–adjusted MK; Theil–Sen slopes of snowpack depths",
         legend_title="Toggle countries",
         legend=dict(groupclick="togglegroup"),   # one click toggles both traces for a country
         margin=dict(l=60, r=20, t=60, b=60),
@@ -129,7 +129,7 @@ def month_trends_fig(typical_station_month,avg_month, show: bool = False):
 
     fig = make_subplots(
         rows=1, cols=2, column_widths=[0.65, 0.35], shared_yaxes=True,
-        subplot_titles=("Stations (Theil–Sen slope per decade)", "Month averages")
+        subplot_titles=("Stations (Theil–Sen slope per decade)", "Month")
     )
 
     # One legend item per country; traces that share legendgroup toggle together
@@ -181,7 +181,7 @@ def month_trends_fig(typical_station_month,avg_month, show: bool = False):
                 showlegend=False,    # use the same legend item as the left trace
                 hovertemplate=(
                     "<b>%{text}</b><br>"
-                    "Avg slope: %{x:.2f} cm/decade<br>"
+                    "Slope: %{x:.2f} cm/decade<br>"
                     "p: %{y:.3f}<extra></extra>"
                 ),
             ),
@@ -198,7 +198,7 @@ def month_trends_fig(typical_station_month,avg_month, show: bool = False):
 
     # Nice defaults
     fig.update_layout(
-        title="Hamed–Rao–adjusted MK; Sen slope of mean snowpack depth per station / per month-average",
+        title="Hamed–Rao–adjusted MK; Sen slope of snowpack depth per station / per month ",
         legend_title="Toggle months",
         legend=dict(groupclick="togglegroup"),   # one click toggles both traces for a country
         margin=dict(l=60, r=20, t=60, b=60),
@@ -289,7 +289,7 @@ def country_station_slope_distrib(typical_station_month,avg_country_month, show:
     fig.add_trace(go.Scatter(
         x=over['country'], y=over['macro_slope'], mode='markers',
         marker=dict(symbol='diamond', size=12, color='black'),
-        name='Macro (median across months)'
+        name='Aggregated Country Series - Median (♦)'
     ))
 
     fig.update_layout(title='Distribution of station slopes by country',
@@ -348,7 +348,7 @@ def month_station_slope_distrib(typical_station_month,avg_month, show: bool = Fa
     fig.add_trace(go.Scatter(
         x=over['month_name'], y=over['macro_slope'], mode='markers',
         marker=dict(symbol='diamond', size=12, color='black'),
-        name='Aggregated month series — median (♦)'
+        name='Aggregated Month Series — Median (♦)'
     ))
 
     fig.update_layout(title='Distribution of station slopes by month',
@@ -541,7 +541,7 @@ def elevation_band_heat(avg_elevation_month, show: bool = False):
         categoryarray=y_order,                      # keep data categories
         tickmode='array',
         tickvals=y_order,                           # same categories as in data
-        ticktext=[label_map[v] for v in y_order])  # what the viewer sees)
+        ticktext=[label_map[v] for v in y_order])   # what the viewer sees)
     fig.update_coloraxes(colorbar_title='cm/decade')
 
     if show:   

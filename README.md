@@ -59,7 +59,7 @@ This project focused on isolating average snowpack depth across weather stations
 - Analyze statistically significant trends across numerous groupiings
 
 
-# Part 1 Data Cleaning
+# 01 Data Cleaning
 
 ## SQL File
 - `01_Data_Cleaning.sql`
@@ -75,34 +75,45 @@ FROM './Data/Raw/European Alps Snow Depth Observations Data/meta_all.csv'
 DELIMITER ',' CSV HEADER;
 ```
 
-# Part 2 EDA
+# 02 Exploratory Data Analysis (EDA)
 
-## Notebook
-- `02_EDA.ipynb`
-  - [View & Learn Data](##view--learn-data)
+- [View & Learn Data](##view--learn-data)
 
-  - [Clean & Organise Data](##clean--organise-data)
-      - Segregate by 'Winter' months
-      - Identify Stations in European Alps
-      - Data Filtering
-      - Assess Data Validity
-          - Focus Range
-          - Filter by Country
-          - Filter by Elevation Band
+- [Clean & Organise Data](##clean--organise-data)
+    - [Segregate by 'Winter' months](#segregate-by-winter-months)
+    - [Identify Stations in European Alps](#identify-stations-in-european-alps)
+    - [Data Filtering](#data-filtering)
+        - [Assess Data Validity](#assess-data-validity)
+        - [Focus Range](#focus-range)
+        - [Filter by Country](#filter-by-country)
+        - [Filter by Elevation Band](#filter-by-elevation
 
-# Part 3 Statistical Testing
+# 03 Statistical Testing
 
-  - [Statistical Testing](##statistical-testing)
-      - Mann-Kendall Tests
-          - Month
-          - Elevation & Month
-          - Country
+  [Mann-Kendall Test](#mann_kendal-testing)
+    - [Function & Application](#Function--Application)
 
-  - [Visualisations](##visualisations)
-      - Man-Kendall Test Results
-          - Month & Elevation
-          - Country
+- [Station-Centric (micro perspective)](#Station-Centric-(micro-perspective))
+    - [Station-Month time series](#station-month-time-series)
+    - [Station-Month time series by Country / Month](#station-month-time-series-by-country--month)
+    - [Station-Month time series by Country](#station-month-time-series-by-country)
 
+- [Region-Centric (macro perspective)](#region-centric-marco-perspective)
+    - [Median Slope Per Country & Month](#average-slope-per-country-month) 
+    - [Median Slope Per Month](#average-slope-per-month)
+    - [Median Slope Per Elevation Band & Month](#Average-Slope-Per-Elevation-Band--Month)
+
+# 04 Visualisations
+  - [Station Coverage](#station-coverage-for-each-country) 
+  - [Country Trends](#country-trends)
+      - [Distribution Of Station Slopes Per Country Month](#distribution-of-station-slopes-per-country-month)
+      - [Country-Year Mean Snowpack Series](#country-year-mean-snowpack-series)
+  - [Month Trends](#month-trends)
+      - [Distribution Of Station Slopes Per Month](#distribution-of-station-slopes-per-month)
+      - [Month Mean Snowpack Series](#month-mean-snowpack-series)
+      - [Country Month Heatmap](#country-month-heatmap)
+  - [Elevation Band](#elevation-band-heatmap)
+      - [Elevation Band Heatmap](#elevation-band-heatmap)
 
 
   
