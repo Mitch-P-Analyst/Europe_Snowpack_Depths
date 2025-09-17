@@ -68,6 +68,12 @@ app.layout = dbc.Container([
             html.P("Sourced from the Zenodo repository, project data included monthly measurements from 2794 weather stations across 12 providers in countries of the European Alps between 1865 - 2019. Through exploratory data analysis, requiring a minimum of 30 years of month-level data across winter months, and restricting to weather stations inside Alpine Convention's 2025 geographical perimeter of the Euroepean Alps, the analytic sample is composed of 795 stations. " \
             "These stations produced 5,309 station-month time series between the years of 1936-2019."),
             html.P("Trends were evaluated with the Mann–Kendall test (with Hamed–Rao autocorrelation adjustment) and Theil–Sen slope estimates, comparing patterns across months, countries, and elevation bands."),
+            html.P("Data is assessed to two methodical approaches;"),
+            html.Ul([
+                html.Li([html.Strong("Station-level (Micro) View — 'What is a typical station doing?'"), " For each station (and month), a time series of average snow depth is built, then an estimated Theil–Sen slope and MK p-value computed, followed by summary the distribution across stations by month/country/elevation. The median of station slopes represents the “typical station” and is robust to outliers."]),
+                html.Li([html.Strong("Aggregated-series (Macro) View — 'What is the area-wide series doing?'"), " For each grouping (e.g., month across all stations, a country, or an elevation band), stations are aggregated per year (using the median to reduce outlier influence) to form a single time series, then the estimated Theil–Sen slope and MK p-value on that series is computed. This gives an area-wide/seasonal trend."])
+                ]),
+            html.P("Note on aggregation effects. The macro slope (trend of an aggregated series) can differ from the micro median of station slopes (a known aggregation/Simpson-type effect). We therefore show and compare both throughout."),
             html.Hr()
             ]))
             ]),
@@ -98,14 +104,15 @@ app.layout = dbc.Container([
     dbc.Row([
         dbc.Col(html.Div(className='chart-header',children=[
             html.H3("Distribution Of Station Slopes Per Country Month",className='display-3'),
-            html.P("This chart shows the distribution of station–month time-series slopes (Theil–Sen, cm/decade) by country. Each dot in the violin spread is an individual station-month series. \
+            html.P("This chart shows the distribution of station–month time series slopes (Theil–Sen, cm/decade) by country. Each dot in the violin spread is an individual station-month series. \
                    The black diamond ♦ marks a macro signal, showing the Theil–Sen slope (cm/decade) from the Hamed–Rao MK adjustment of the median of the country-level seasonal aggregated series. This captures each country’s central seasonal trend while remaining robust to outliers and month-to-month imbalance. \
                    The horizontal dashed blue line is zero-slope change; values below it indicate long-term declines.")
         ])),
         dbc.Col(dcc.Graph(id='country_distrib',figure=country_station_disb),width=12),
         dbc.Col(html.Div(className='chart-interpretation',children=[
              html.P("Extreme values are present in both postive and negative directions for countries France, Germany, Italy and Switzerland. While all 5,309 station-month time series presented in this chart have undergone cleaning, meeting thresholds of >= 30 years of data during Mann–Kendall testing, further analysis may be viable to review extreme values"),
-             html.P("All countries, except Italy, present a negative median Theil-Sen slope value per decade for the typical regional weather station. Comparatively, all countries except Switerzland present a negative Theil-Sen slope across the aggreated country-level. This variation between macro-aggreated median in comparison to the median station value raises awareness about aggregation effect causing potential bias.")
+             html.P("All countries, except Italy, present a negative median Theil-Sen slope value per decade for the typical regional weather station. Comparatively, all countries except Switerzland present a negative Theil-Sen slope across the aggreated country-level. " \
+             "This variation between country-level aggregation and the median station-level value raises awareness about aggregation effect causing potential bias.")
                     ])),
         dbc.Col(html.Div(className='chart-header',children=[
             html.H3("Country-Year Mean Snowpack Series",className='display-3'),

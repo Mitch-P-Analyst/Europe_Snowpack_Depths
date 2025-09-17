@@ -109,24 +109,24 @@ SELECT
 	fr_meteofrance.month,
 	fr_meteofrance.hnsum
 FROM fr_meteofrance
-JOIN weather_stations 
-	ON LOWER(TRIM(weather_stations.name)) = LOWER(TRIM(fr_meteofrance.name))
+JOIN weather_stations
+        ON LOWER(TRIM(weather_stations.name)) = LOWER(TRIM(fr_meteofrance.name));
 -- This join ensures that the station names match, accounting for case and whitespace differences
 
 -- Repeat the above insert for other providers, e.g. AT_HZB, CH_meteoswiss, etc.
 
-### Data Validation 
+-- ### Data Validation 
 -- Assess the completeness of the data and the success of the INSERT queries
 
 -- Confirm the number of unique station_ids in weather_stations and monthly_snowpack
 -- This will help identify if any station_ids are missing from the monthly_snowpack table
 
-SELECT 
-	COUNT(DISTINCT(weather_stations.station_id)) AS Num_stations_meta,
-	COUNT(DISTINCT(monthly_snowpack.station_id)) AS Num_stations_inserted
+SELECT
+		COUNT(DISTINCT(weather_stations.station_id)) AS Num_stations_meta,
+		COUNT(DISTINCT(monthly_snowpack.station_id)) AS Num_stations_inserted
 FROM weather_stations
 FULL OUTER JOIN monthly_snowpack
-	ON weather_stations.station_id = monthly_snowpack.station_id
+		ON weather_stations.station_id = monthly_snowpack.station_id
 
 -- Identify any weather stations that do not have corresponding monthly_snowpack records
 -- Process providing extended details about the missing records
@@ -141,52 +141,31 @@ FROM weather_stations as ws
 FULL OUTER JOIN monthly_snowpack as ms
 	ON ws.station_id = ms.station_id
 WHERE ms.station_id IS NULL
-ORDER BY ws.provider
+ORDER BY ws.provider:
 
 SELECT 
 	DISTINCT ws.provider
 FROM weather_stations as ws
 FULL OUTER JOIN monthly_snowpack as ms
 	ON ws.station_id = ms.station_id
-WHERE ms.station_id IS NULL 
+WHERE ms.station_id IS NULL:
 
+-- Perform summary view below for which providers have missing station_ids in monthly_snowpack
 
--- Addressing missing station_ids from provider tables
--- If weather stations are missing from above queries
--- Perform summary view below for which providers have missing station_ids in monthly_snowpack 
-
-
-INSERT INTO monthly_snowpack 
-	( 
-	station_id,
-	year,
-	month,
-	hnsum
-		)
-SELECT
-	weather_stations.station_id,
-	CH_meteoswiss.year,
-	CH_meteoswiss.month,
-	CH_meteoswiss.hnsum
-FROM CH_meteoswiss
-JOIN weather_stations 
-	ON weather_stations.name = CH_meteoswiss.name
-
-INSERT INTO monthly_snowpack 
-	( 
-	station_id,
-	year,
-	month,
-	hnsum
-		)
-SELECT
-	weather_stations.station_id,
-	fr_meteofrance.year,
-	fr_meteofrance.month,
-	fr_meteofrance.hnsum
-FROM fr_meteofrance
-JOIN weather_stations 
-	ON weather_stations.name = fr_meteofrance.name
+-- Example template for loading additional provider tables once staging tables are populated:
+-- INSERT INTO monthly_snowpack (
+--         station_id,
+--         year,
+--         month,
+--         hnsum)
+-- SELECT
+--         weather_stations.station_id,
+--         provider_table.year,
+--         provider_table.month,
+--         provider_table.hnsum
+-- FROM provider_table
+-- JOIN weather_stations
+--         ON LOWER(TRIM(weather_stations.name)) = LOWER(TRIM(provider_table.name));
 
 -- Delete weather_stations records where no monthly_snowpack data is present in provider tables
 
@@ -199,7 +178,7 @@ FROM weather_stations as ws
 FULL OUTER JOIN monthly_snowpack as ms
 	ON ws.station_id = ms.station_id
 WHERE ms.station_id IS NULL
-ORDER BY ws.provider
+ORDER BY ws.provider;
 
 DELETE FROM weather_stations ws
 WHERE NOT EXISTS (
