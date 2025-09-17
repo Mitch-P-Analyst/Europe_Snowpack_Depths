@@ -11,6 +11,7 @@ def country_trends_fig(per_station,avg_country, show: bool = False):
     import plotly.graph_objects as go
     import plotly.express as px
     from plotly.subplots import make_subplots   
+    import numpy as np
     
     countries = sorted(per_station['country'].unique())
     palette   = px.colors.qualitative.Set1  # pick any qualitative palette you like
@@ -35,11 +36,20 @@ def country_trends_fig(per_station,avg_country, show: bool = False):
                 mode="markers",
                 name=c,
                 legendgroup=c,
-                marker=dict(color=col,size=6, opacity=0.55),
+                marker=dict(color=col,size=6, opacity=0.55), 
+
+                # put station-specific fields here
+                customdata=np.c_[psc['station_id'].to_numpy(),
+                             psc.get('name', psc['station_id']).to_numpy()],  # optional name
+
+
+
                 hovertemplate=(
                     "<b>%{text}</b><br>"
-                    "Slope: %{x:.2f} cm/decade<br>"
-                    "p: %{y:.3f}<extra></extra>"
+                    "<b>Station ID</b> %{customdata[0]}<br>"
+                    "<b>Slope:</b> %{x:.2f} cm/decade<br>"
+                    "<b>p:</b> %{y:.3f}" 
+                    "<extra></extra>"
                 ),
                 text=psc['country'],
                 showlegend=True,     # legend item shown here
@@ -99,6 +109,7 @@ def month_trends_fig(typical_station_month,avg_month, show: bool = False):
     from plotly.subplots import make_subplots
     import pandas as pd
     import plotly.express as px
+    import numpy as np
 
     # Months Orders
     order = ['Nov','Dec','Jan','Feb','Mar','Apr','May'] # Seasonal
@@ -136,10 +147,19 @@ def month_trends_fig(typical_station_month,avg_month, show: bool = False):
                 name=m,
                 legendgroup=m,
                 marker=dict(color=col,size=6, opacity=0.55),
+
+
+                # put station-specific fields here
+                customdata=np.c_[tsm['station_id'].to_numpy(),
+                             tsm.get('name', tsm['station_id']).to_numpy()],  # optional name
+
+
                 hovertemplate=(
                     "<b>%{text}</b><br>"
-                    "Slope: %{x:.2f} cm/decade<br>"
-                    "p: %{y:.3f}<extra></extra>"
+                    "<b>Station ID:</b> %{customdata[0]}<br>"
+                    "<br>Slope:<br> %{x:.2f} cm/decade<br>"
+                    "<br>p:<br> %{y:.3f}" 
+                    "<extra></extra>"
                 ),
                 text=tsm['month_name'],
                 showlegend=True,     # legend item shown here
@@ -456,8 +476,19 @@ def elevation_band_heat(avg_elevation_month, show: bool = False):
 
     P = (avg_elevation_month.pivot_table(index='elevation_band',
                                         columns='month_name',
-                                        values='p')
+                                        values='p')             # p-values of months
         .reindex(index=y_order, columns=month_order)).astype(float)
+    
+    N = (avg_elevation_month.pivot_table(index='elevation_band', columns='month_name',
+                                         values='n_years')
+         .reindex(index=y_order, columns=month_order))          # years of data
+
+    M = (avg_elevation_month.pivot_table(index='elevation_band', columns='month_name',
+                                         values='median_stations_per_year')
+         .reindex(index=y_order, columns=month_order))          # median # stations
+
+
+
 
     fig = px.imshow(
         Z,
@@ -471,13 +502,19 @@ def elevation_band_heat(avg_elevation_month, show: bool = False):
     )
 
     # ---- attach custom p-values to the HEATMAP and format its hover ----
-    # expand dims so we can reference customdata[0] in the hovertemplate
-    fig.data[0].customdata = np.expand_dims(P.values, axis=-1)
+    # ---- attach customdata: [p, n_years, median_stations_per_year] ----
+    # (shape must be (rows, cols, k))
+    custom = np.dstack([P.to_numpy(), N.to_numpy(), M.to_numpy()])
+    fig.data[0].customdata = custom
+
     fig.data[0].hovertemplate = (
-        'Month: %{x}<br>'
-        'Elevation band: %{y}<br>'
-        'Slope: %{z:.2f} cm/decade<br>'
-        'p-value: %{customdata[0]:.4f}<extra></extra>'
+        "Month: %{x}<br>"
+        "Elevation band: %{y}<br>"
+        "Slope: %{z:.2f} cm/decade<br>"
+        "p-value: %{customdata[0]:.4f}<br>"
+        "Years of data: %{customdata[1]:.0f}<br>"
+        "Median # stations: %{customdata[2]:.0f}"
+        "<extra></extra>"
     )
 
     # ---- optional: overlay significance dots (and show p to 4 dp) ----
@@ -492,8 +529,19 @@ def elevation_band_heat(avg_elevation_month, show: bool = False):
         hovertemplate='Month: %{x}<br>Elevation band: %{y}<br>p-value: %{customdata:.4f}<extra></extra>'
     ))
 
+    label_map = {
+    'Low Elevation':  'Low Elevation (≤1,000 m)',
+    'Mid Elevation':  'Mid Elevation (1,001–2,000 m)',
+    'High Elevation': 'High Elevation (>2,000 m)',
+}
+
     fig.update_xaxes(title_text='Month', categoryorder='array', categoryarray=month_order)
-    fig.update_yaxes(title_text='Elevation Band', categoryorder='array', categoryarray=y_order)
+    fig.update_yaxes(title_text='Elevation Band',
+        categoryorder='array',
+        categoryarray=y_order,                      # keep data categories
+        tickmode='array',
+        tickvals=y_order,                           # same categories as in data
+        ticktext=[label_map[v] for v in y_order])  # what the viewer sees)
     fig.update_coloraxes(colorbar_title='cm/decade')
 
     if show:   

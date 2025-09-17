@@ -231,17 +231,53 @@ app.layout = dbc.Container([
     ]),
     dbc.Row([
         dbc.Col(html.Div(className="chart-header",children=[
-            html.H3("Elevatnion Band Heatmap",className="display-3"),
-            html.P("The following figure shows the median Theil-Sen slope per decade for the typical station of each Elevation Band."),
+            html.H3("Elevation Band Heatmap",className="display-3"),
+            html.P(["The following figure shows the Theil-Sen slope per decade for the for ",html.Strong("month-level mean snowpack depth for each Elevation Band")," across the European Alps."]),
+            html.P("The calculated slope is the Theil–Sen estimate computed on the yearly mean snowpack series for each elevation band and month (i.e., slope of the band-level mean across years)"),
             html.Ul([
                 html.Li("Guide Lines: "),
                 html.Ul([
                     html.Li("Use color to compare the magnitude and direction of the typical (median) station trend for each elevation bands."),
-                    html.Li("The black dot ontop of heat squares dictates if the aggreated country-month average meets the significance threshold (α = 0.05)")
-                ])  
-            ])
+                    html.Li(["The ",html.Strong("●")," black dot ontop of heat squares marks marks cells where the Hamed–Rao–adjusted Mann–Kendall test indicates the trend is statistically significant (p ≤ 0.05)."]),
+                    html.Li("Hover Tile Details:"),
+                    html.Ul([
+                        html.Li("Slope: Theil-San Monotonic trend in cm/decade."),
+                        html.Li("p-value: Mann-Kendall (Hamed-Rao varient) two-side p-value."),
+                        html.Li("Years Of Data: The count of years contributing to that elevation band-month estimate."),
+                        html.Li("Median # Stations: The median number of stations per year within that elevation band-month tile")
+                        ])
+                    ])
+                ]),
+            html.P(["Treat cells with ",html.Strong("few years or few stations")," with extra casution due to small sample sizes."]),  
+            ])),
+        dbc.Col(dcc.Graph(id='elev-heat',figure=elevation_fig),width=12),
+        dbc.Col(html.Div(className='chart-interpretation',children=[
+            html.P("All elevation bands see a general decline in average snowpack depth per month. Strongest declines at High Elevation (>2,000 m). All tiles predominantly blue, with April showing the largest decrease, but at an extreme level even with ● p ≤ 0.05."),
+            html.P(["High Elevation has fewer contributing stations (hover shows median stations/year ≈ 13–19 and years of data). "
+            "Data cleaning requirements during MK testing (≥ 30 station-years per time-month series) reduced station availability, especially at High Elevation (a reduction of 60 to ~16). The median stations/year in the hovers reflect this post-cleaning support. ",html.Strong("Treat those cells as higher-variance")," as small samples can yield unstable estimates."]),
+            html.P("Late-season signals at lower bands: In May, both Mid (1,000–2,000 m) and Low (≤1,000 m) show small but significant declines (●), while earlier months at these bands are weak or non-significant."),
+            html.P("P-values are unadjusted across 21 cells; small significant signals (especially in May at lower bands) should be interpreted with that context.")
         ])),
-        dbc.Col(dcc.Graph(id='elev-heat',figure=elevation_fig),width=12)
+        html.Hr()
+    ]),
+    dbc.Row([
+        dbc.Col(html.Div(className="conclusion",children=[
+            html.H2("Conclusion",className='display-2'),
+            html.P("Alpine winter snowpack is declining, with statistically significant, strongest losses at high elevations in late winter/early spring, led by Italy, Slovenia, and Austria. While aggregated summaries often look more negative than station-level medians."),
+            html.P([html.Strong("Station-level Trends "),"are present across most countries and months. A majority of station–month series show negative Theil–Sen slopes; These distribution centers sit below zero. Recurrent patterns of stronger declines in early spring (especially at high elevations) are evident. Further outlier cleaning may refine a small share of extreme points but does not change the overall picture."]),
+            html.P([html.Strong("Geographical Context "),"Italy, Slovenia, and Austria display statistically significant decreases across several months. France, Switzerland, and Germany generally show smaller or non-significant declines. These east/south vs. west/north differences provide potential further analysis on regional storm tracking and snowfall changes."]),
+            html.P([html.Strong("Aggregation Bias "),"observed when comparing the median of station distributions with the macro (country/month) median. This consistent gap shows macro aggregation often yields more negative slopes. For interpretation and reporting, detailing which summary is reference recommendation is to use both medians."]),
+            html.P([html.Strong("Date coverage "), "and strict quality control cleaning (≥ 30 years per station, Hamed–Rao MK adjustment) reduced the dataset from 2,794 stations to 795. This improved statistical reliability but left fewer high-elevation series, which should be read with appropriate caution. Limited station counts also explain isolated non-significant tiles in the country-month and elevation-band heatmaps. Expanding to additional sources on Zenodo could strengthen coverage."]),
+            html.H3("References",className='display-3'),
+            html.Ul([
+                html.Li(html.A("Zenodo.org Records #5109574",href="https://zenodo.org/records/5109574",target="_blank", rel="noopener noreferrer")),
+                html.Li(html.A("Alpine Convention Organsiation",href="https://www.atlas.alpconv.org/layers/geonode_data:geonode:Alpine_Convention_Perimeter_2025",target="_blank", rel="noopener noreferrer"))
+            ])
+        ]))
+    ]),
+    dbc.Row([
+        dbc.Col(html.Div(className="conclusion")),
+        html.Hr()
     ])
 ])
 

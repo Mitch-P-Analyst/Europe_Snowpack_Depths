@@ -60,7 +60,7 @@ body{
     padding: 20px 0px;
     border-radius: 8px;
 
-    h2{
+    H2{
         font-size: $h2-font-size;
     }
 
@@ -74,11 +74,11 @@ body{
     padding: 20px 0px;
     border-radius: 8px;
 
-    h2{
+    H2{
         margin: 0px;
         font-size: $h2-font-size;
     }
-    h3{
+    H3{
         font-size: $h3-font-size;
     }
 
@@ -103,4 +103,20 @@ body{
     font-size: $p-font-size;
     font-size: $p-font-size;
 
+}
+
+
+.conclusion{
+    text-align: left;
+    margin: 20px 5px;
+    padding: 5px 5px;
+    font-size: $p-font-size;
+    H2{
+        margin: 0px;
+        font-size: $h2-font-size;
+        text-align: center;
+    }
+    H3{
+        font-size: $h3-font-size;
+    }
 }
