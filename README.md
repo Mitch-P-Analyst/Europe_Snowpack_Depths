@@ -11,6 +11,10 @@ Run the Dash app to explore the project summary, figures, and conclusions.
 
 This project isolates average snowpack depth across weather stations in the European Alps and compares **station-level (micro)** trends with **aggregated (macro)** trends.
 
+### Summary
+
+Alpine winter snowpack is **declining**, with statistically significant, strongest losses at high elevations in early winter/early spring, led by Italy, Slovenia, Austria and Germany. While aggregated summaries are exaggerated in core months and muted in fringe months compared to station-level medians.
+
 
 ### Tools
 - Pandas
@@ -91,6 +95,16 @@ python -m app
 - Time range: 1864–2024
   - Reduced to 1936 – 2019 to abide by ≥ 30 winters of data threshold.
 
+
+#### Data Objectives
+- Clean and normailize entities for weather data analysis
+- Calcualte average winter seasonal snowpack depth for each weather station
+- Consolidate monthly snowpack data from 12 providers into one entity
+- Analyze statistically significant trends across numerous groupings
+- Visualise Theil-Sen slopes for monotonic trends across categories countries, months and elevation bands
+- Conclude inference from statistical models for winter snowpack trend.
+
+
 ### SQL Database Schema
 
 - `weather_stations`: European Alps Weather station metadata
@@ -108,15 +122,6 @@ python -m app
     month,
     hnsum 
     )
-
-#### Data Objectives
-- Clean and normailize entities for weather data analysis
-- Calcualte average winter seasonal snowpack depth for each weather station
-- Consolidate monthly snowpack data from 12 providers into one entity
-- Analyze statistically significant trends across numerous groupings
-- Visualise Theil-Sen slopes for monotonic trends across categories countries, months and elevation bands
-- Conclude inference from statistical models for winter snowpack trend.
-
 
 ## Procedure 
 
