@@ -1,12 +1,16 @@
 # European Alps Average Monthly Snowpack Depths
 
-## Project Overiew
-A PostgreSQL & Python Visualisation project exploring trends of monthly snowdepths from 2794 weather stations across Germany, Italy, France, Austria, Slovenia & Switerland.
+A PostgreSQL and Python visualization project analyzing trends in **monthly snow depths** from **2,794 weather stations** across **Germany, Italy, France, Austria, Slovenia, and Switzerland**. The focus is on **average snowpack depth** and how trends differ by **country, month, and elevation band**.
 
-This project focused on isolating snowpack depth across weather stations in the European Alps for analysis of trends.
 
 ## Dash Application
-Run the DASH Application to review the project summary analysis and conclusion
+Run the Dash app to explore the project summary, figures, and conclusions.
+
+
+## Project Overiew
+
+This project isolates average snowpack depth across weather stations in the European Alps and compares **station-level (micro)** trends with **aggregated (macro)** trends.
+
 
 ### Tools
 - Pandas
@@ -67,35 +71,27 @@ python -m app
 
 ## Data 
 
-### Content
-- 2794 stations from Germany, Italy, France, Austria, Slovenia & Switerland
-- Daily stations snow depth and depth of snowfall, as .zips, grouped by data provider. 
-- Monthly stations data as .zips, grouped by data provider. 
-  - mean snow depth (hnsum)
-  - sum of depth of snowfall
-  - maximum snow depth
-  - days with snow cover (1-100cm thresholds)
-- Station Meta data
-  - name
-  - latitude
-  - longitude
-  - elevation
-
-### Data Source
+### Source
 - Kaggle Dataset 'European Alps Snow Depth Observations'
   - Referencing [Zenodo.org Records #5109574](https://zenodo.org/records/5109574)
 - Geographical Perimeter GDF European Alps Mask 
   - Sourced from Alpine Convention region. Updated in 2025.
     - [Alpine Convention Organsiation](https://www.atlas.alpconv.org/layers/geonode_data:geonode:Alpine_Convention_Perimeter_2025)
    
+### Content
+- Zenodo European Alps Snow Depth Observations (1865–2019), filtered to the **Alpine Convention 2025 perimeter**.
+- Analysis Sample: **795 stations** after QA (≥ 30 winters of data), producing **5,309 station-month time series** (1936–2019).
+
 #### Data Manipulation
 
-- Metadata of 2979 Available weather stations condensed to 2794 in relavence to avaiable Monthly Snowpack Depths from 12 providers. 
+- Metadata of 2979 Available weather stations
+  - condensed to 2794 in relavence to avaiable Monthly Snowpack Depths from 12 providers. 
+    - Reduced to **795 stations** after QA (≥ 30 winters of data) producing **5,309 station-month time series**
 - Monthly snow depth (`hnsum`) per station
-  - Null Values removed
 - Time range: 1864–2024
+  - Reduced to 1936 – 2019 to abide by ≥ 30 winters of data threshold.
 
-### Database Schema
+### SQL Database Schema
 
 - `weather_stations`: European Alps Weather station metadata
     ([SerialPK] Station_id ,
@@ -112,7 +108,6 @@ python -m app
     month,
     hnsum 
     )
-
 
 #### Data Objectives
 - Clean and normailize entities for weather data analysis
