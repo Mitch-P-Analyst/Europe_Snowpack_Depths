@@ -3,10 +3,10 @@
 ## Project Overiew
 A PostgreSQL & Python Visualisation project exploring trends of monthly snowdepths from 2794 weather stations across Germany, Italy, France, Austria, Slovenia & Switerland.
 
-This project focused on isolating average snowpack depth across weather stations in the European Alps for future inferenital analysis of snow depth trends.
+This project focused on isolating snowpack depth across weather stations in the European Alps for analysis of trends.
 
 ## Dash Application
-Run the DASH Application to review the project summary
+Run the DASH Application to review the project summary analysis and conclusion
 
 ### Tools
 - Pandas
@@ -30,6 +30,7 @@ python -m app
 ```
 ├── app/                                                  
 │   │ ├── app.py                                          # DASH application
+│   │ ├── __main__.py                                     
 │   │ ├── assests/                                        # DASH application styling
 │   │ │ ├── style.css               
 │   │ │ ├── style.css.map           

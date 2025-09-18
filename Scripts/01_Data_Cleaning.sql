@@ -3,13 +3,13 @@ CREATE DATABASE alps_snowpack;
 
 -- Create a table for weather stations metadata
 CREATE TABLE weather_stations (
-	station_id SERIAL PRIMARY KEY,
-	name TEXT NOT NULL,
-	latitude NUMERIC(9,6),
-	longitude NUMERIC(9,6),
-	elevation NUMERIC(6,2),
-	country TEXT,
-	provider TEXT NOT NULL, 
+	    station_id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL,
+        latitude NUMERIC(9,6),
+        longitude NUMERIC(9,6),
+        elevation NUMERIC(6,2),
+        country TEXT,
+        provider TEXT NOT NULL
 );
 
 -- Insert metadata for weather stations
@@ -27,11 +27,11 @@ INSERT INTO weather_stations
 
 -- Create a table for monthly snowpack data
 CREATE TABLE monthly_snowpack (
-	id INTEGER PRIMARY KEY
+	id INTEGER PRIMARY KEY,
 	station_id INTEGER REFERENCES weather_stations(station_id),
 	year INTEGER NOT NULL,
 	month INTEGER NOT NULL,
-	hnsum NUMERIC(5,2),
+	hnsum NUMERIC(5,2)
 )
 
 -- Create a table for each provider's snowpack data from 'Raw Data CSVs' folder

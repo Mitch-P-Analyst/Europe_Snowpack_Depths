@@ -135,7 +135,7 @@ app.layout = dbc.Container([
         ])),
         dbc.Col(dcc.Graph(id='country_distrib',figure=country_station_disb),width=12),
         dbc.Col(html.Div(className='chart-interpretation',children=[
-             html.P("Extreme values are present in both postive and negative directions for countries France, Germany, Italy and Switzerland. While all 5,309 station-month time series presented in this chart have undergone cleaning, meeting thresholds of >= 30 years of data during Mann–Kendall testing, further analysis may be viable to review extreme values"),
+             html.P("Extreme values are present in both postive and negative directions for countries France, Germany, Italy and Switzerland. While all 5,309 station-month time series presented in this chart have undergone cleaning, meeting thresholds of >= 30 years of data during Mann–Kendall testing, further analysis may be viable to review extreme values."),
              html.P("All countries, except Italy, present a negative median Theil-Sen slope value per decade for the typical regional weather station. Comparatively, all countries except Switerzland present a negative Theil-Sen slope across the aggreated country-level. " \
              "This variation between country-level aggregation and the median station-level value raises awareness about aggregation effect causing potential bias.")
                     ])),
