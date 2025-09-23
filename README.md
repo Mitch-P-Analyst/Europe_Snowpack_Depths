@@ -185,6 +185,13 @@ DELIMITER ',' CSV HEADER;
 
 ### Visualisations
 ![Distribution of Station Slopes by Month](https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Monthly_Snowpacks_Distribution.png?raw=true)
+- *Distribution Of Station Slopes By Month*
+
+![Elevation Band Heatmap](https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Elevation_Heatmap.png?raw=true)
+- *Theil-Sen Slopes of Elevation Band in Heatmap*
+
+![Country Snowpacks](https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Country_Snowpacks.png?raw=true)
+- *Theil-Sen Slopes of Country Snowpacks* 
 
 ### Summary
 Alpine winter snowpack is declining across much of the European Alps, with the most statistically significant losses occurring at high elevations and during early winter and early spring months. Italy, Slovenia, Austria, and Germany show the strongest negative trends, while Switzerland and France show milder or non-significant changes.
