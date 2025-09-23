@@ -6,10 +6,54 @@ A PostgreSQL and Python visualization project analyzing trends in **monthly snow
 
 This project isolates average snowpack depth across weather stations in the European Alps and compares **station-level (micro)** trends with **aggregated (macro)** trends.
 
+## Key Findings & Conclusion
+
+### Visualisations
+
+- *Distribution Of Station Slopes By Month*
+![Distribution of Station Slopes by Month](https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Monthly_Snowpacks_Distribution.svg?raw=true)
+
+
+- *Theil-Sen Slopes of Elevation Band in Heatmap*
+![Elevation Band Heatmap](https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Elevation_Heatmap.svg?raw=true)
+
+
+- *Theil-Sen Slopes of Country Snowpacks* 
+![Country Snowpacks](https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Country_Snowpacks.svg?raw=true)
+
 ### Summary
 
-Alpine winter snowpack is **declining**, with statistically significant, strongest losses at high elevations in early winter/early spring, led by Italy, Slovenia, Austria and Germany. While aggregated summaries are exaggerated in core months and muted in fringe months compared to station-level medians.
+Alpine winter snowpack is **declining** across much of the European Alps, with statistically significant, strongest losses at high elevations in early winter and early spring, led by Italy, Slovenia, Austria and Germany. While aggregated summaries are exaggerated in core months and muted in fringe months compared to station-level medians.
 
+| Category                  | Summary                          |
+| ------------------------- | -------------------------------- |
+| Total Stations            | 2,794                            |
+| Stations Used (≥30 years) | 795                              |
+| Monthly Series Analyzed   | 5,309                            |
+| Most Affected Region      | Italy, Slovenia, Austria         |
+| Most Affecteds Months     | November, April.                 |
+| Strongest Signal          | High elevation stations          |
+| Aggregation Effect        | Overstates trends in core months |
+
+
+### Findings
+**Station-level Trends:**  
+- Most individual station-month time series show negative Theil–Sen slopes.  
+- Stronger declines are observed at higher elevations and during early-season months (Nov–Feb).  
+
+**Geographical Patterns:**  
+- Southeast Alpine countries (Italy, Slovenia, Austria) display the strongest consistent declines.  
+- North/west countries (France, Switzerland, Germany) show more muted or mixed signals.  
+
+**Aggregation Effect:**  
+- Aggregated time series tend to overstate declines in core months and understate changes in fringe months, compared to the median station-level trend.  
+- This reinforces the need to interpret macro summaries with caution and to distinguish from station-level variability.  
+
+**Data Reliability:**  
+- Only stations with ≥ 30 years of winter data were retained (reducing the sample from 2,794 to 795), improving statistical confidence but limiting coverage at some elevations.  
+- Further outlier cleaning was explored but had minimal effect on overall conclusions.
+
+  
 
 ### Tools
 - Pandas
@@ -181,36 +225,3 @@ DELIMITER ',' CSV HEADER;
       - Elevation Band Heatmap
 
 
-## Key Findings & Conclusion
-
-### Visualisations
-![Distribution of Station Slopes by Month](https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Monthly_Snowpacks_Distribution.png?raw=true)
-- *Distribution Of Station Slopes By Month*
-
-![Elevation Band Heatmap](https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Elevation_Heatmap.png?raw=true)
-- *Theil-Sen Slopes of Elevation Band in Heatmap*
-
-![Country Snowpacks](https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Country_Snowpacks.png?raw=true)
-- *Theil-Sen Slopes of Country Snowpacks* 
-
-### Summary
-Alpine winter snowpack is declining across much of the European Alps, with the most statistically significant losses occurring at high elevations and during early winter and early spring months. Italy, Slovenia, Austria, and Germany show the strongest negative trends, while Switzerland and France show milder or non-significant changes.
-
-### Findings
-**Station-level Trends:**  
-- Most individual station-month time series show negative Theil–Sen slopes.  
-- Stronger declines are observed at higher elevations and during early-season months (Nov–Feb).  
-
-**Geographical Patterns:**  
-- Southeast Alpine countries (Italy, Slovenia, Austria) display the strongest consistent declines.  
-- North/west countries (France, Switzerland, Germany) show more muted or mixed signals.  
-
-**Aggregation Effect:**  
-- Aggregated time series tend to overstate declines in core months and understate changes in fringe months, compared to the median station-level trend.  
-- This reinforces the need to interpret macro summaries with caution and to distinguish from station-level variability.  
-
-**Data Reliability:**  
-- Only stations with ≥ 30 years of winter data were retained (reducing the sample from 2,794 to 795), improving statistical confidence but limiting coverage at some elevations.  
-- Further outlier cleaning was explored but had minimal effect on overall conclusions.
-
-  

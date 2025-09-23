@@ -26,12 +26,85 @@
       
 <h1 id="european-alps-average-monthly-snowpack-depths">European Alps Average Monthly Snowpack Depths </h1>
 <p>A PostgreSQL and Python visualization project analyzing trends in <strong>monthly snow depths</strong> from <strong>2,794 weather stations</strong> across <strong>Germany, Italy, France, Austria, Slovenia, and Switzerland</strong>. The focus is on <strong>average snowpack depth</strong> and how trends differ by <strong>country, month, and elevation band</strong>.</p>
-<h2 id="dash-application">Dash Application </h2>
-<p>Run the Dash app to explore the project summary, figures, and conclusions.</p>
 <h2 id="project-overiew">Project Overiew </h2>
 <p>This project isolates average snowpack depth across weather stations in the European Alps and compares <strong>station-level (micro)</strong> trends with <strong>aggregated (macro)</strong> trends.</p>
+<h2 id="key-findings--conclusion">Key Findings &amp; Conclusion </h2>
+<h3 id="visualisations">Visualisations </h3>
+<ul>
+<li>
+<p><em>Distribution Of Station Slopes By Month</em><br>
+<img src="https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Monthly_Snowpacks_Distribution.png?raw=true" alt="Distribution of Station Slopes by Month"></p>
+</li>
+<li>
+<p><em>Theil-Sen Slopes of Elevation Band in Heatmap</em><br>
+<img src="https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Elevation_Heatmap.png?raw=true" alt="Elevation Band Heatmap"></p>
+</li>
+<li>
+<p><em>Theil-Sen Slopes of Country Snowpacks</em><br>
+<img src="https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Country_Snowpacks.png?raw=true" alt="Country Snowpacks"></p>
+</li>
+</ul>
 <h3 id="summary">Summary </h3>
-<p>Alpine winter snowpack is <strong>declining</strong>, with statistically significant, strongest losses at high elevations in early winter/early spring, led by Italy, Slovenia, Austria and Germany. While aggregated summaries are exaggerated in core months and muted in fringe months compared to station-level medians.</p>
+<p>Alpine winter snowpack is <strong>declining</strong> across much of the European Alps, with statistically significant, strongest losses at high elevations in early winter and early spring, led by Italy, Slovenia, Austria and Germany. While aggregated summaries are exaggerated in core months and muted in fringe months compared to station-level medians.</p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Total Stations</td>
+<td>2,794</td>
+</tr>
+<tr>
+<td>Stations Used (≥30 years)</td>
+<td>795</td>
+</tr>
+<tr>
+<td>Monthly Series Analyzed</td>
+<td>5,309</td>
+</tr>
+<tr>
+<td>Most Affected Region</td>
+<td>Italy, Slovenia, Austria</td>
+</tr>
+<tr>
+<td>Most Affecteds Months</td>
+<td>November, April.</td>
+</tr>
+<tr>
+<td>Strongest Signal</td>
+<td>High elevation stations</td>
+</tr>
+<tr>
+<td>Aggregation Effect</td>
+<td>Overstates trends in core months</td>
+</tr>
+</tbody>
+</table>
+<h3 id="findings">Findings </h3>
+<p><strong>Station-level Trends:</strong></p>
+<ul>
+<li>Most individual station-month time series show negative Theil–Sen slopes.</li>
+<li>Stronger declines are observed at higher elevations and during early-season months (Nov–Feb).</li>
+</ul>
+<p><strong>Geographical Patterns:</strong></p>
+<ul>
+<li>Southeast Alpine countries (Italy, Slovenia, Austria) display the strongest consistent declines.</li>
+<li>North/west countries (France, Switzerland, Germany) show more muted or mixed signals.</li>
+</ul>
+<p><strong>Aggregation Effect:</strong></p>
+<ul>
+<li>Aggregated time series tend to overstate declines in core months and understate changes in fringe months, compared to the median station-level trend.</li>
+<li>This reinforces the need to interpret macro summaries with caution and to distinguish from station-level variability.</li>
+</ul>
+<p><strong>Data Reliability:</strong></p>
+<ul>
+<li>Only stations with ≥ 30 years of winter data were retained (reducing the sample from 2,794 to 795), improving statistical confidence but limiting coverage at some elevations.</li>
+<li>Further outlier cleaning was explored but had minimal effect on overall conclusions.</li>
+</ul>
 <h3 id="tools">Tools </h3>
 <ul>
 <li>Pandas</li>
@@ -41,6 +114,8 @@
 <li>Shapely</li>
 <li>GeoJson</li>
 </ul>
+<h2 id="run-a-local-dashboard-application">Run A Local Dashboard Application </h2>
+<p>Run the Dash app to explore the project summary, figures, and conclusions.</p>
 <h3 id="run-installation--dash-app">Run Installation &amp; Dash App </h3>
 <pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token function">git</span> clone https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths.git
 <span class="token builtin class-name">cd</span> Europe_Snowpack_Depths
@@ -82,7 +157,7 @@ python <span class="token parameter variable">-m</span> app
 ├── .gitattributes
 ├── gitignore
 ├── requirements.txt
-└── README.md/   
+└── README.md
 
 </code></pre><h2 id="data">Data </h2>
 <h3 id="source">Source </h3>
@@ -111,14 +186,14 @@ python <span class="token parameter variable">-m</span> app
 <ul>
 <li>Metadata of 2979 Available weather stations
 <ul>
-<li>condensed to 2794 in relavence to avaiable Monthly Snowpack Depths from 12 providers.
+<li>condensed to 2794 in relevance to avaiable Monthly Snowpack Depths from 12 providers.
 <ul>
 <li>Reduced to <strong>795 stations</strong> after QA (≥ 30 winters of data) producing <strong>5,309 station-month time series</strong></li>
 </ul>
 </li>
 </ul>
 </li>
-<li>Monthly snow depth (<code>hnsum</code>) per station</li>
+<li>Monthly snow depth (<strong>hnsum</strong>) per station</li>
 <li>Time range: 1864–2024
 <ul>
 <li>Reduced to 1936 – 2019 to abide by ≥ 30 winters of data threshold.</li>
@@ -127,8 +202,8 @@ python <span class="token parameter variable">-m</span> app
 </ul>
 <h4 id="data-objectives">Data Objectives </h4>
 <ul>
-<li>Clean and normailize entities for weather data analysis</li>
-<li>Calcualte average winter seasonal snowpack depth for each weather station</li>
+<li>Clean and normalize entities for weather data analysis</li>
+<li>Calculate average winter seasonal snowpack depth for each weather station</li>
 <li>Consolidate monthly snowpack data from 12 providers into one entity</li>
 <li>Analyze statistically significant trends across numerous groupings</li>
 <li>Visualise Theil-Sen slopes for monotonic trends across categories countries, months and elevation bands</li>
@@ -136,7 +211,7 @@ python <span class="token parameter variable">-m</span> app
 </ul>
 <h3 id="sql-database-schema">SQL Database Schema </h3>
 <ul>
-<li><code>weather_stations</code>: European Alps Weather station metadata<br>
+<li><strong>weather_stations</strong>: European Alps Weather station metadata<br>
 ([SerialPK] Station_id ,<br>
 name,<br>
 latitude,<br>
@@ -144,7 +219,7 @@ longitude,<br>
 elevation (metres),<br>
 country,<br>
 provider )</li>
-<li><code>monthy_snowpack</code>: Average monthly snowpack per weather station<br>
+<li>(<strong>monthy_snowpack</strong>): Average monthly snowpack per weather station<br>
 ([PK] id,<br>
 [FK] Station_id,<br>
 year,<br>
@@ -158,7 +233,7 @@ hnsum<br>
 <li>
 <p>SQL File</p>
 <ul>
-<li><code>01_Data_Cleaning.sql</code>
+<li><strong>01_Data_Cleaning.sql</strong>
 <ul>
 <li>Base filtering</li>
 <li>Aggregated table creation</li>
@@ -177,64 +252,64 @@ To load the raw metadata and snowpack data from CSVs into PostgreSQL, use the fo
 </code></pre><h3 id="02-exploratory-data-analysis-eda">02 Exploratory Data Analysis (EDA) </h3>
 <ul>
 <li>
-<p><a href="##view--learn-data">View &amp; Learn Data</a></p>
+<p>View &amp; Learn Data</p>
 </li>
 <li>
-<p><a href="##clean--organise-data">Clean &amp; Organise Data</a></p>
+<p>Clean &amp; Organise Data</p>
 <ul>
-<li><a href="#segregate-by-winter-months">Segregate by 'Winter' months</a></li>
-<li><a href="#identify-stations-in-european-alps">Identify Stations in European Alps</a></li>
-<li><a href="#data-filtering">Data Filtering</a>
+<li>Segregate by 'Winter' months</li>
+<li>Identify Stations in European Alps</li>
+<li>Data Filtering
 <ul>
-<li><a href="#assess-data-validity">Assess Data Validity</a></li>
-<li><a href="#focus-range">Focus Range</a></li>
-<li><a href="#filter-by-country">Filter by Country</a></li>
-<li>[Filter by Elevation Band](#filter-by-elevation</li>
+<li>Assess Data Validity</li>
+<li>Focus Range</li>
+<li>Filter by Country</li>
+<li>Filter by Elevation Band</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 <h3 id="03-statistical-testing">03 Statistical Testing </h3>
-<p><a href="#mann_kendal-testing">Mann-Kendall Test</a><br>
-- <a href="#Function--Application">Function &amp; Application</a></p>
+<p>Mann-Kendall Test<br>
+- Function &amp; Application</p>
 <ul>
 <li>
-<p><a href="#Station-Centric-(micro-perspective)">Station-Centric (micro perspective)</a></p>
+<p>Station-Centric (micro perspective)</p>
 <ul>
-<li><a href="#station-month-time-series">Station-Month time series</a></li>
-<li><a href="#station-month-time-series-by-country--month">Station-Month time series by Country / Month</a></li>
-<li><a href="#station-month-time-series-by-country">Station-Month time series by Country</a></li>
+<li>Station-Month time series</li>
+<li>Station-Month time series by Country / Month</li>
+<li>Station-Month time series by Country</li>
 </ul>
 </li>
 <li>
-<p><a href="#region-centric-marco-perspective">Region-Centric (macro perspective)</a></p>
+<p>Region-Centric (macro perspective)</p>
 <ul>
-<li><a href="#slope-per-country-month">Slope Per Country &amp; Month</a></li>
-<li><a href="#slope-per-month">Slope Per Month</a></li>
-<li><a href="#slope-per-elevation-band--month">Slope Per Elevation Band &amp; Month</a></li>
+<li>Slope Per Country &amp; Month</li>
+<li>Slope Per Month</li>
+<li>Slope Per Elevation Band &amp; Month</li>
 </ul>
 </li>
 </ul>
 <h3 id="04-visualisations">04 Visualisations </h3>
 <ul>
-<li><a href="#station-coverage-for-each-country">Station Coverage</a></li>
-<li><a href="#country-trends">Country Trends</a>
+<li>Station Coverage</li>
+<li>Country Trends
 <ul>
-<li><a href="#distribution-of-station-slopes-per-country-month">Distribution Of Station Slopes Per Country Month</a></li>
-<li><a href="#country-year-mean-snowpack-series">Country-Year Mean Snowpack Series</a></li>
+<li>Distribution Of Station Slopes Per Country Month</li>
+<li>Country-Year Mean Snowpack Series</li>
 </ul>
 </li>
-<li><a href="#month-trends">Month Trends</a>
+<li>Month Trends
 <ul>
-<li><a href="#distribution-of-station-slopes-per-month">Distribution Of Station Slopes Per Month</a></li>
-<li><a href="#month-mean-snowpack-series">Month Mean Snowpack Series</a></li>
-<li><a href="#country-month-heatmap">Country Month Heatmap</a></li>
+<li>Distribution Of Station Slopes Per Month</li>
+<li>Month Mean Snowpack Series</li>
+<li>Country Month Heatmap</li>
 </ul>
 </li>
-<li><a href="#elevation-band-heatmap">Elevation Band</a>
+<li>Elevation Band
 <ul>
-<li><a href="#elevation-band-heatmap">Elevation Band Heatmap</a></li>
+<li>Elevation Band Heatmap</li>
 </ul>
 </li>
 </ul>
