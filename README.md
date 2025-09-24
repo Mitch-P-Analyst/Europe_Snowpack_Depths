@@ -37,23 +37,26 @@ Alpine winter snowpack is **declining** across much of the European Alps, with s
 
 
 ### Findings
+
 **Station-level Trends:**  
+
 - Most individual station-month time series show negative Theil–Sen slopes.  
-- Stronger declines are observed at higher elevations and during early-season months (Nov–Feb).  
+- Stronger declines are observed at higher elevations and during early winter and early spring months (Nov & Apr).  
 
 **Geographical Patterns:**  
+
 - Southeast Alpine countries (Italy, Slovenia, Austria) display the strongest consistent declines.  
 - North/west countries (France, Switzerland, Germany) show more muted or mixed signals.  
 
 **Aggregation Effect:**  
+
 - Aggregated time series tend to overstate declines in core months and understate changes in fringe months, compared to the median station-level trend.  
 - This reinforces the need to interpret macro summaries with caution and to distinguish from station-level variability.  
 
 **Data Reliability:**  
+
 - Only stations with ≥ 30 years of winter data were retained (reducing the sample from 2,794 to 795), improving statistical confidence but limiting coverage at some elevations.  
 - Further outlier cleaning was explored but had minimal effect on overall conclusions.
-
-  
 
 ### Tools
 - Pandas
@@ -62,7 +65,6 @@ Alpine winter snowpack is **declining** across much of the European Alps, with s
 - Stats
 - Shapely
 - GeoJson
-
 
 ## Run A Local Dashboard Application
 Run the Dash app to explore the project summary, figures, and conclusions.
