@@ -28,9 +28,18 @@
 <p>A PostgreSQL and Python visualization project analyzing trends in <strong>monthly snow depths</strong> from <strong>2,794 weather stations</strong> across <strong>Germany, Italy, France, Austria, Slovenia, and Switzerland</strong>. The focus is on <strong>average snowpack depth</strong> and how trends differ by <strong>country, month, and elevation band</strong>.</p>
 <h2 id="project-overiew">Project Overiew </h2>
 <p>This project isolates average snowpack depth across weather stations in the European Alps and compares <strong>station-level (micro)</strong> trends with <strong>aggregated (macro)</strong> trends.</p>
-<h2 id="key-findings--conclusion">Key Findings &amp; Conclusion </h2>
-<h3 id="visualisations">Visualisations </h3>
+<h2 id="run-a-local-dashboard-application">Run A Local Dashboard Application </h2>
+<p>Run the Dash app to explore the project summary, figures, and conclusions.</p>
+<h3 id="dashboard-screen-grabs--visualistion-outputs">Dashboard Screen Grabs &amp; Visualistion Outputs </h3>
 <ul>
+<li>
+<p><em>Dashboard Introdction Screengrab</em><br>
+<img src="https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Dashboard%20Screengrab%20-%20Introduction.png?raw=true" alt="Dashboard Introduction"></p>
+</li>
+<li>
+<p><em>Dashboard Monthly Analysis Screengrab</em><br>
+<img src="https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Dashboard%20Screengrab%20-%20Monthly%20Analysis.png?raw=true" alt="Dashboard Monthly Analysis"></p>
+</li>
 <li>
 <p><em>Distribution Of Station Slopes By Month</em><br>
 <img src="https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Monthly_Snowpacks_Distribution.svg?raw=true" alt="Distribution of Station Slopes by Month"></p>
@@ -44,6 +53,14 @@
 <img src="https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Country_Snowpacks.svg?raw=true" alt="Country Snowpacks"></p>
 </li>
 </ul>
+<h3 id="run-installation--dash-app">Run Installation &amp; Dash App </h3>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token function">git</span> clone https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths.git
+<span class="token builtin class-name">cd</span> Europe_Snowpack_Depths
+<span class="token function">git</span> lfs <span class="token function">install</span>
+<span class="token function">git</span> lfs pull
+pip <span class="token function">install</span> <span class="token parameter variable">-r</span> requirements.txt
+python <span class="token parameter variable">-m</span> app
+</code></pre><h2 id="key-findings--conclusion">Key Findings &amp; Conclusion </h2>
 <h3 id="summary">Summary </h3>
 <p>Alpine winter snowpack is <strong>declining</strong> across much of the European Alps, with statistically significant, strongest losses at high elevations in early winter and early spring, led by Italy, Slovenia, Austria and Germany. While aggregated summaries are exaggerated in core months and muted in fringe months compared to station-level medians.</p>
 <table>
@@ -114,16 +131,7 @@
 <li>Shapely</li>
 <li>GeoJson</li>
 </ul>
-<h2 id="run-a-local-dashboard-application">Run A Local Dashboard Application </h2>
-<p>Run the Dash app to explore the project summary, figures, and conclusions.</p>
-<h3 id="run-installation--dash-app">Run Installation &amp; Dash App </h3>
-<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token function">git</span> clone https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths.git
-<span class="token builtin class-name">cd</span> Europe_Snowpack_Depths
-<span class="token function">git</span> lfs <span class="token function">install</span>
-<span class="token function">git</span> lfs pull
-pip <span class="token function">install</span> <span class="token parameter variable">-r</span> requirements.txt
-python <span class="token parameter variable">-m</span> app
-</code></pre><h2 id="repository-structure">Repository Structure </h2>
+<h2 id="repository-structure">Repository Structure </h2>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>├── app/                                                  
 │   │ ├── app.py                                          # DASH application
 │   │ ├── __main__.py                                     

@@ -6,20 +6,37 @@ A PostgreSQL and Python visualization project analyzing trends in **monthly snow
 
 This project isolates average snowpack depth across weather stations in the European Alps and compares **station-level (micro)** trends with **aggregated (macro)** trends.
 
-## Key Findings & Conclusion
+## Run A Local Dashboard Application
+Run the Dash app to explore the project summary, figures, and conclusions.
 
-### Visualisations
+### Dashboard Screen Grabs & Visualistion Outputs
+- *Dashboard Introdction Screengrab*
+![Dashboard Introduction](https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Dashboard%20Screengrab%20-%20Introduction.png?raw=true)
+
+- *Dashboard Monthly Analysis Screengrab*
+![Dashboard Monthly Analysis](https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Dashboard%20Screengrab%20-%20Monthly%20Analysis.png?raw=true)
 
 - *Distribution Of Station Slopes By Month*
 ![Distribution of Station Slopes by Month](https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Monthly_Snowpacks_Distribution.svg?raw=true)
 
-
 - *Theil-Sen Slopes of Elevation Band in Heatmap*
 ![Elevation Band Heatmap](https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Elevation_Heatmap.svg?raw=true)
 
-
 - *Theil-Sen Slopes of Country Snowpacks* 
 ![Country Snowpacks](https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Country_Snowpacks.svg?raw=true)
+
+
+### Run Installation & Dash App
+``` bash
+git clone https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths.git
+cd Europe_Snowpack_Depths
+git lfs install
+git lfs pull
+pip install -r requirements.txt
+python -m app
+```
+
+## Key Findings & Conclusion
 
 ### Summary
 
@@ -65,19 +82,6 @@ Alpine winter snowpack is **declining** across much of the European Alps, with s
 - Stats
 - Shapely
 - GeoJson
-
-## Run A Local Dashboard Application
-Run the Dash app to explore the project summary, figures, and conclusions.
-
-### Run Installation & Dash App
-``` bash
-git clone https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths.git
-cd Europe_Snowpack_Depths
-git lfs install
-git lfs pull
-pip install -r requirements.txt
-python -m app
-```
 
 ## Repository Structure
 ```
