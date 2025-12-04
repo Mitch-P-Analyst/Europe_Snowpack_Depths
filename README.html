@@ -28,7 +28,8 @@
 <p>A PostgreSQL and Python visualization project analyzing trends in <strong>monthly snow depths</strong> from <strong>2,794 weather stations</strong> across <strong>Germany, Italy, France, Austria, Slovenia, and Switzerland</strong>. The focus is on <strong>average snowpack depth</strong> and how trends differ by <strong>country, month, and elevation band</strong>.</p>
 <h2 id="project-overview">Project Overview </h2>
 <p>This project examines monthly snowpack depth trends across the European Alps from 1936–2019. Using PostgreSQL, Python, and geospatial filtering within the Alpine Convention perimeter, I analysed how winter snowpack is changing over time across 2,794 stations.</p>
-<p>The goal was to compare <strong>station-level (micro)</strong> trends with <strong>aggregated (macro)</strong> trends across months, countries, and elevation bands. I used non-parametric tests (<strong>Mann–Kendall and Theil–Sen</strong>) to quantify monotonic trends, and then wrapped the results into an interactive Dash app so users can explore patterns, test different groupings, and understand where and when declines are strongest.</p>
+<p>The goal was to compare <strong>station-level (micro)</strong> trends with <strong>aggregated (macro)</strong> trends across months, countries, and elevation bands. I applied non-parametric tests (<strong>Mann–Kendall and Theil–Sen</strong>) to quantify monotonic trends, and then wrapped the results into an interactive Dash app so users can explore patterns, test different groupings, and understand where and when declines are strongest.</p>
+<p>For a narrative write-up, see the <a href="https://www.mitchelljrpalmer.com/projects/euro-snowpack">project page on my portfolio.</a></p>
 <h2 id="dashboard-application">Dashboard Application </h2>
 <p>Run the Dash app to explore the project summary, figures, and conclusions.</p>
 <h3 id="explore-interactive-dashboard">Explore Interactive Dashboard </h3>
@@ -61,42 +62,42 @@ pip <span class="token function">install</span> <span class="token parameter var
 python <span class="token parameter variable">-m</span> app
 </code></pre><h2 id="key-findings--conclusion">Key Findings &amp; Conclusion </h2>
 <h3 id="summary">Summary </h3>
-<p>Alpine winter snowpack is <strong>declining</strong> across much of the European Alps, with statistically significant, strongest losses at <strong>high elevations</strong> in <strong>early winter</strong> and <strong>early spring</strong>, led by <strong>Italy, Slovenia, Austria and Germany</strong>. While <strong>aggregated summaries are exaggerated in core months</strong> and <strong>muted in fringe months</strong> compared to station-level medians.</p>
+<p>Alpine winter snowpack is <strong>declining</strong> across much of the European Alps, with statistically significant, strongest losses at <strong>high elevations</strong> in <strong>early winter</strong> and <strong>early spring</strong>, led by <strong>Italy, Slovenia and Austria</strong>. While <strong>aggregated summaries are exaggerated in core months</strong> and <strong>muted in fringe months</strong> compared to station-level medians.</p>
 <table>
 <thead>
 <tr>
 <th>Category</th>
-<th>Summary</th>
+<th>Value</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Total Stations</td>
+<td>Total stations</td>
 <td>2,794</td>
 </tr>
 <tr>
-<td>Stations Used (≥30 years)</td>
+<td>Stations used (≥ 30 years)</td>
 <td>795</td>
 </tr>
 <tr>
-<td>Monthly Series Analyzed</td>
+<td>Monthly series analysed</td>
 <td>5,309</td>
 </tr>
 <tr>
-<td>Most Affected Region</td>
+<td>Most affected region</td>
 <td>Italy, Slovenia, Austria</td>
 </tr>
 <tr>
-<td>Most Affected Months</td>
-<td>November, April.</td>
+<td>Most affected months</td>
+<td>November and April</td>
 </tr>
 <tr>
-<td>Strongest Signal</td>
-<td>High elevation stations</td>
+<td>Strongest signal</td>
+<td>High-elevation stations</td>
 </tr>
 <tr>
-<td>Aggregation Effect</td>
-<td>Overstates trends in core months</td>
+<td>Aggregation effect</td>
+<td>Overstates trends in core winter months</td>
 </tr>
 </tbody>
 </table>
@@ -124,9 +125,9 @@ python <span class="token parameter variable">-m</span> app
 <h2 id="repository-structure">Repository Structure </h2>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>├── app/                                                  
 │   │ ├── app.py                                          # DASH application
-│   │ ├── __init__.py                                     # DASH application
+│   │ ├── __init__.py                                     
 │   │ ├── __main__.py                                     
-│   │ ├── assests/                                        # DASH application styling
+│   │ ├── assets/                                        # DASH application styling
 │   │ │ ├── style.css               
 │   │ │ ├── style.css.map           
 │   │ │ └── style.scss                                    # Master scss styling
@@ -188,9 +189,9 @@ python <span class="token parameter variable">-m</span> app
 </ul>
 <h4 id="data-manipulation">Data Manipulation </h4>
 <ul>
-<li>Metadata of 2979 Available weather stations
+<li>Metadata for 2,979 available weather stations
 <ul>
-<li>condensed to 2794 in relevance to available Monthly Snowpack Depths from 12 providers.
+<li>Condensed to 2,794 stations with monthly snowpack depths from 12 providers.
 <ul>
 <li>Reduced to <strong>795 stations</strong> after QA (≥ 30 winters of data) producing <strong>5,309 station-month time series</strong></li>
 </ul>
@@ -204,14 +205,19 @@ python <span class="token parameter variable">-m</span> app
 </ul>
 </li>
 </ul>
-<h4 id="data-objectives">Data Objectives </h4>
+<h3 id="data-objectives">Data Objectives </h3>
 <ul>
-<li>Clean and normalize entities for weather data analysis</li>
-<li>Calculate average winter seasonal snowpack depth for each weather station</li>
-<li>Consolidate monthly snowpack data from 12 providers into one entity</li>
-<li>Analyze statistically significant trends across numerous groupings</li>
-<li>Visualise Theil-Sen slopes for monotonic trends across categories countries, months and elevation bands</li>
-<li>Conclude inference from statistical models for winter snowpack trend.</li>
+<li>Identify monotonic trends in winter snowpack depth at both <strong>station level</strong> and <strong>aggregated (country / elevation band) level</strong>.</li>
+<li>Visualise <strong>Theil–Sen slopes</strong> for monotonic trends across key categories: <strong>countries, months, and elevation bands</strong>.</li>
+<li>Compare <strong>station-level medians</strong> with <strong>aggregated series</strong> to understand how averaging changes the apparent strength and timing of trends.</li>
+<li>Draw clear, interpretable inferences from the statistical models about <strong>where and when Alpine winter snowpack is changing</strong>.</li>
+</ul>
+<h3 id="tools">Tools </h3>
+<ul>
+<li><strong>Database &amp; GIS:</strong> PostgreSQL, PostGIS, GeoJSON</li>
+<li><strong>Python &amp; analysis:</strong> Python, Pandas, GeoPandas, SciPy / statsmodels</li>
+<li><strong>Visualisation &amp; app:</strong> Plotly, Dash</li>
+<li><strong>Environment &amp; workflow:</strong> Jupyter, Git, Git LFS</li>
 </ul>
 <h3 id="sql-database-schema">SQL Database Schema </h3>
 <ul>
@@ -223,22 +229,13 @@ longitude,<br>
 elevation (metres),<br>
 country,<br>
 provider )</li>
-<li>(<strong>monthly_snowpack</strong>): Average monthly snowpack per weather station<br>
+<li><strong>monthly_snowpack</strong>: Average monthly snowpack per weather station<br>
 ([PK] id,<br>
 [FK] Station_id,<br>
 year,<br>
 month,<br>
 hnsum<br>
 )</li>
-</ul>
-<h3 id="tools">Tools </h3>
-<ul>
-<li>Pandas</li>
-<li>Plotly</li>
-<li>pymannkendall</li>
-<li>Stats</li>
-<li>Shapely</li>
-<li>GeoJson</li>
 </ul>
 <h2 id="procedure">Procedure </h2>
 <h3 id="01-data-cleaning">01 Data Cleaning </h3>

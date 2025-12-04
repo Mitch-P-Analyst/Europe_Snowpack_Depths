@@ -6,7 +6,9 @@ A PostgreSQL and Python visualization project analyzing trends in **monthly snow
 
 This project examines monthly snowpack depth trends across the European Alps from 1936–2019. Using PostgreSQL, Python, and geospatial filtering within the Alpine Convention perimeter, I analysed how winter snowpack is changing over time across 2,794 stations.
 
-The goal was to compare **station-level (micro)** trends with **aggregated (macro)** trends across months, countries, and elevation bands. I used non-parametric tests (**Mann–Kendall and Theil–Sen**) to quantify monotonic trends, and then wrapped the results into an interactive Dash app so users can explore patterns, test different groupings, and understand where and when declines are strongest.
+The goal was to compare **station-level (micro)** trends with **aggregated (macro)** trends across months, countries, and elevation bands. I applied non-parametric tests (**Mann–Kendall and Theil–Sen**) to quantify monotonic trends, and then wrapped the results into an interactive Dash app so users can explore patterns, test different groupings, and understand where and when declines are strongest.
+
+For a narrative write-up, see the [project page on my portfolio.](https://www.mitchelljrpalmer.com/projects/euro-snowpack)
 
 ## Dashboard Application
 Run the Dash app to explore the project summary, figures, and conclusions.
@@ -42,17 +44,17 @@ python -m app
 
 ### Summary
 
-Alpine winter snowpack is **declining** across much of the European Alps, with statistically significant, strongest losses at **high elevations** in **early winter** and **early spring**, led by **Italy, Slovenia, Austria and Germany**. While **aggregated summaries are exaggerated in core months** and **muted in fringe months** compared to station-level medians.
+Alpine winter snowpack is **declining** across much of the European Alps, with statistically significant, strongest losses at **high elevations** in **early winter** and **early spring**, led by **Italy, Slovenia and Austria**. While **aggregated summaries are exaggerated in core months** and **muted in fringe months** compared to station-level medians.
 
-| Category                  | Summary                          |
-| ------------------------- | -------------------------------- |
-| Total Stations            | 2,794                            |
-| Stations Used (≥30 years) | 795                              |
-| Monthly Series Analyzed   | 5,309                            |
-| Most Affected Region      | Italy, Slovenia, Austria         |
-| Most Affected Months      | November, April.                 |
-| Strongest Signal          | High elevation stations          |
-| Aggregation Effect        | Overstates trends in core months |
+| Category                   | Value                                   |
+|----------------------------|-----------------------------------------|
+| Total stations             | 2,794                                   |
+| Stations used (≥ 30 years) | 795                                     |
+| Monthly series analysed    | 5,309                                   |
+| Most affected region       | Italy, Slovenia, Austria                |
+| Most affected months       | November and April                      |
+| Strongest signal           | High-elevation stations                 |
+| Aggregation effect         | Overstates trends in core winter months |
 
 
 ### Findings
@@ -81,9 +83,9 @@ Alpine winter snowpack is **declining** across much of the European Alps, with s
 ```
 ├── app/                                                  
 │   │ ├── app.py                                          # DASH application
-│   │ ├── __init__.py                                     # DASH application
+│   │ ├── __init__.py                                     
 │   │ ├── __main__.py                                     
-│   │ ├── assests/                                        # DASH application styling
+│   │ ├── assets/                                        # DASH application styling
 │   │ │ ├── style.css               
 │   │ │ ├── style.css.map           
 │   │ │ └── style.scss                                    # Master scss styling
@@ -134,22 +136,26 @@ Alpine winter snowpack is **declining** across much of the European Alps, with s
 
 #### Data Manipulation
 
-- Metadata of 2979 Available weather stations
-  - condensed to 2794 in relevance to available Monthly Snowpack Depths from 12 providers. 
+- Metadata for 2,979 available weather stations  
+  - Condensed to 2,794 stations with monthly snowpack depths from 12 providers.
     - Reduced to **795 stations** after QA (≥ 30 winters of data) producing **5,309 station-month time series**
 - Monthly snow depth (**hnsum**) per station
 - Time range: 1864–2024
   - Reduced to 1936 – 2019 to abide by ≥ 30 winters of data threshold.
 
 
-#### Data Objectives
-- Clean and normalize entities for weather data analysis
-- Calculate average winter seasonal snowpack depth for each weather station
-- Consolidate monthly snowpack data from 12 providers into one entity
-- Analyze statistically significant trends across numerous groupings
-- Visualise Theil-Sen slopes for monotonic trends across categories countries, months and elevation bands
-- Conclude inference from statistical models for winter snowpack trend.
+### Data Objectives
 
+- Identify monotonic trends in winter snowpack depth at both **station level** and **aggregated (country / elevation band) level**.
+- Visualise **Theil–Sen slopes** for monotonic trends across key categories: **countries, months, and elevation bands**.
+- Compare **station-level medians** with **aggregated series** to understand how averaging changes the apparent strength and timing of trends.
+- Draw clear, interpretable inferences from the statistical models about **where and when Alpine winter snowpack is changing**.
+
+### Tools
+- **Database & GIS:** PostgreSQL, PostGIS, GeoJSON
+- **Python & analysis:** Python, Pandas, GeoPandas, SciPy / statsmodels
+- **Visualisation & app:** Plotly, Dash
+- **Environment & workflow:** Jupyter, Git, Git LFS
 
 ### SQL Database Schema
 
@@ -161,7 +167,7 @@ Alpine winter snowpack is **declining** across much of the European Alps, with s
     elevation (metres), 
     country, 
     provider )
-- (**monthly_snowpack**): Average monthly snowpack per weather station
+- **monthly_snowpack**: Average monthly snowpack per weather station
     ([PK] id,
     [FK] Station_id,
     year,
@@ -169,13 +175,7 @@ Alpine winter snowpack is **declining** across much of the European Alps, with s
     hnsum 
     )
 
-### Tools
-- Pandas
-- Plotly
-- pymannkendall
-- Stats
-- Shapely
-- GeoJson
+
 
 
 ## Procedure 
