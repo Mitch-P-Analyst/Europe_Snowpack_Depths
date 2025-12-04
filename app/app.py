@@ -305,8 +305,12 @@ app.layout = dbc.Container([
             html.P([html.Strong("Date coverage "), "and strict quality control cleaning (≥ 30 years per station, Hamed–Rao MK adjustment) reduced the dataset from 2,794 stations to 795. This improved statistical reliability but left fewer high-elevation series, which should be read with appropriate caution. Limited station counts also explain isolated non-significant tiles in the country-month and elevation-band heatmaps. Expanding to additional sources on Zenodo could strengthen coverage."]),
             html.H3("References",className='display-3'),
             html.Ul([
-                html.Li(html.A("Zenodo.org Records #5109574",href="https://zenodo.org/records/5109574",target="_blank", rel="noopener noreferrer")),
-                html.Li(html.A("Alpine Convention Organsiation",href="https://www.atlas.alpconv.org/layers/geonode_data:geonode:Alpine_Convention_Perimeter_2025",target="_blank", rel="noopener noreferrer"))
+                html.Li("European Alps Snow Depth Observations (Zenodo / Kaggle) – monthly snow depth (hnsum) for Alpine weather stations from 1864–2019."),
+                html.Ul([
+                    html.Li(html.A("Zenodo.org Records #5109574",href="https://zenodo.org/records/5109574",target="_blank", rel="noopener noreferrer"))]),
+                html.Li("Alpine Convention perimeter (2025 update)."),
+                html.Ul([
+                    html.Li(html.A("Alpine Convention Organisation",href="https://www.atlas.alpconv.org/layers/geonode_data:geonode:Alpine_Convention_Perimeter_2025",target="_blank", rel="noopener noreferrer"))])
             ])
         ]))
     ]),

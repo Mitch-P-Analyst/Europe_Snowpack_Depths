@@ -3,7 +3,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
-      <link rel="stylesheet" href="file:////Users/mitchellpalmer/.vscode/extensions/shd101wyy.markdown-preview-enhanced-0.8.19/crossnote/dependencies/katex/katex.min.css">
+      <link rel="stylesheet" href="file:////Users/mitchellpalmer/.vscode/extensions/shd101wyy.markdown-preview-enhanced-0.8.20/crossnote/dependencies/katex/katex.min.css">
       
       
       
@@ -26,34 +26,33 @@
       
 <h1 id="european-alps-average-monthly-snowpack-depths">European Alps Average Monthly Snowpack Depths </h1>
 <p>A PostgreSQL and Python visualization project analyzing trends in <strong>monthly snow depths</strong> from <strong>2,794 weather stations</strong> across <strong>Germany, Italy, France, Austria, Slovenia, and Switzerland</strong>. The focus is on <strong>average snowpack depth</strong> and how trends differ by <strong>country, month, and elevation band</strong>.</p>
-<h2 id="project-overiew">Project Overiew </h2>
-<p>This project isolates average snowpack depth across weather stations in the European Alps and compares <strong>station-level (micro)</strong> trends with <strong>aggregated (macro)</strong> trends.</p>
-<h2 id="run-a-local-dashboard-application">Run A Local Dashboard Application </h2>
+<h2 id="project-overview">Project Overview </h2>
+<p>This project examines monthly snowpack depth trends across the European Alps from 1936–2019. Using PostgreSQL, Python, and geospatial filtering within the Alpine Convention perimeter, I analysed how winter snowpack is changing over time across 2,794 stations.</p>
+<p>The goal was to compare <strong>station-level (micro)</strong> trends with <strong>aggregated (macro)</strong> trends across months, countries, and elevation bands. I used non-parametric tests (<strong>Mann–Kendall and Theil–Sen</strong>) to quantify monotonic trends, and then wrapped the results into an interactive Dash app so users can explore patterns, test different groupings, and understand where and when declines are strongest.</p>
+<h2 id="dashboard-application">Dashboard Application </h2>
 <p>Run the Dash app to explore the project summary, figures, and conclusions.</p>
-<h3 id="dashboard-screen-grabs--visualistion-outputs">Dashboard Screen Grabs &amp; Visualistion Outputs </h3>
+<h3 id="explore-interactive-dashboard">Explore Interactive Dashboard </h3>
+<p>Use the interactive Dash app to explore snowpack trends by month, country, and elevation band.</p>
 <ul>
-<li>
-<p><em>Dashboard Introdction Screengrab</em><br>
-<img src="https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Dashboard%20Screengrab%20-%20Introduction.png?raw=true" alt="Dashboard Introduction"></p>
-</li>
-<li>
-<p><em>Dashboard Monthly Analysis Screengrab</em><br>
-<img src="https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Dashboard%20Screengrab%20-%20Monthly%20Analysis.png?raw=true" alt="Dashboard Monthly Analysis"></p>
-</li>
-<li>
-<p><em>Distribution Of Station Slopes By Month</em><br>
-<img src="https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Monthly_Snowpacks_Distribution.svg?raw=true" alt="Distribution of Station Slopes by Month"></p>
-</li>
-<li>
-<p><em>Theil-Sen Slopes of Elevation Band in Heatmap</em><br>
-<img src="https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Elevation_Heatmap.svg?raw=true" alt="Elevation Band Heatmap"></p>
-</li>
-<li>
-<p><em>Theil-Sen Slopes of Country Snowpacks</em><br>
-<img src="https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Country_Snowpacks.svg?raw=true" alt="Country Snowpacks"></p>
+<li>Filter by country, month, and elevation band.</li>
+<li>Switch between station-level distributions and aggregated summaries.</li>
+<li>Compare how trends differ between core winter months and shoulder months.</li>
+</ul>
+<p>View Dashboard:</p>
+<ul>
+<li>To view Live Dashboard -&gt; <a href="https://europe-snowpack-depths.onrender.com/">Click Here</a>
+<ul>
+<li>Note: the dashboard may take ~15 seconds to wake up on first load.</li>
+</ul>
 </li>
 </ul>
+<h4 id="dashboard-screen-grab">Dashboard Screen Grab </h4>
+<ul>
+<li><em>Dashboard Introduction Screengrab</em><br>
+<img src="https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths/blob/main/Outputs/Dashboard%20Screengrab%20-%20Introduction.png?raw=true" alt="Dashboard Introduction"></li>
+</ul>
 <h3 id="run-installation--dash-app">Run Installation &amp; Dash App </h3>
+<p>To run the Dashboard application on a local connection, complete the following installation:</p>
 <pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token function">git</span> clone https://github.com/Mitch-P-Analyst/Europe_Snowpack_Depths.git
 <span class="token builtin class-name">cd</span> Europe_Snowpack_Depths
 <span class="token function">git</span> lfs <span class="token function">install</span>
@@ -62,7 +61,7 @@ pip <span class="token function">install</span> <span class="token parameter var
 python <span class="token parameter variable">-m</span> app
 </code></pre><h2 id="key-findings--conclusion">Key Findings &amp; Conclusion </h2>
 <h3 id="summary">Summary </h3>
-<p>Alpine winter snowpack is <strong>declining</strong> across much of the European Alps, with statistically significant, strongest losses at high elevations in early winter and early spring, led by Italy, Slovenia, Austria and Germany. While aggregated summaries are exaggerated in core months and muted in fringe months compared to station-level medians.</p>
+<p>Alpine winter snowpack is <strong>declining</strong> across much of the European Alps, with statistically significant, strongest losses at <strong>high elevations</strong> in <strong>early winter</strong> and <strong>early spring</strong>, led by <strong>Italy, Slovenia, Austria and Germany</strong>. While <strong>aggregated summaries are exaggerated in core months</strong> and <strong>muted in fringe months</strong> compared to station-level medians.</p>
 <table>
 <thead>
 <tr>
@@ -88,7 +87,7 @@ python <span class="token parameter variable">-m</span> app
 <td>Italy, Slovenia, Austria</td>
 </tr>
 <tr>
-<td>Most Affecteds Months</td>
+<td>Most Affected Months</td>
 <td>November, April.</td>
 </tr>
 <tr>
@@ -119,21 +118,13 @@ python <span class="token parameter variable">-m</span> app
 </ul>
 <p><strong>Data Reliability:</strong></p>
 <ul>
-<li>Only stations with ≥ 30 years of winter data were retained (reducing the sample from 2,794 to 795), improving statistical confidence but limiting coverage at some elevations.</li>
+<li>Only <strong>stations with ≥ 30 years of winter data were retained</strong> (reducing the sample from 2,794 to 795), improving statistical confidence, but limiting coverage at some elevations.</li>
 <li>Further outlier cleaning was explored but had minimal effect on overall conclusions.</li>
-</ul>
-<h3 id="tools">Tools </h3>
-<ul>
-<li>Pandas</li>
-<li>Plotly</li>
-<li>pymannkendall</li>
-<li>Stats</li>
-<li>Shapely</li>
-<li>GeoJson</li>
 </ul>
 <h2 id="repository-structure">Repository Structure </h2>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>├── app/                                                  
 │   │ ├── app.py                                          # DASH application
+│   │ ├── __init__.py                                     # DASH application
 │   │ ├── __main__.py                                     
 │   │ ├── assests/                                        # DASH application styling
 │   │ │ ├── style.css               
@@ -165,21 +156,26 @@ python <span class="token parameter variable">-m</span> app
 ├── .gitattributes
 ├── gitignore
 ├── requirements.txt
+├── wsgi.py
 └── README.md
 
 </code></pre><h2 id="data">Data </h2>
 <h3 id="source">Source </h3>
 <ul>
-<li>Kaggle Dataset 'European Alps Snow Depth Observations'
+<li><strong>Primary dataset:</strong>
 <ul>
-<li>Referencing <a href="https://zenodo.org/records/5109574">Zenodo.org Records #5109574</a></li>
+<li>European Alps Snow Depth Observations (Zenodo / Kaggle) – monthly snow depth (hnsum) for Alpine weather stations.
+<ul>
+<li><a href="https://zenodo.org/records/5109574">Zenodo.org Records #5109574</a></li>
 </ul>
 </li>
-<li>Geographical Perimeter GDF European Alps Mask
+</ul>
+</li>
+<li><strong>Geospatial boundary:</strong>
 <ul>
-<li>Sourced from Alpine Convention region. Updated in 2025.
+<li>Alpine Convention perimeter (2025 update), used as a mask to define the study region.
 <ul>
-<li><a href="https://www.atlas.alpconv.org/layers/geonode_data:geonode:Alpine_Convention_Perimeter_2025">Alpine Convention Organsiation</a></li>
+<li><a href="https://www.atlas.alpconv.org/layers/geonode_data:geonode:Alpine_Convention_Perimeter_2025">Alpine Convention Organisation</a></li>
 </ul>
 </li>
 </ul>
@@ -194,7 +190,7 @@ python <span class="token parameter variable">-m</span> app
 <ul>
 <li>Metadata of 2979 Available weather stations
 <ul>
-<li>condensed to 2794 in relevance to avaiable Monthly Snowpack Depths from 12 providers.
+<li>condensed to 2794 in relevance to available Monthly Snowpack Depths from 12 providers.
 <ul>
 <li>Reduced to <strong>795 stations</strong> after QA (≥ 30 winters of data) producing <strong>5,309 station-month time series</strong></li>
 </ul>
@@ -227,13 +223,22 @@ longitude,<br>
 elevation (metres),<br>
 country,<br>
 provider )</li>
-<li>(<strong>monthy_snowpack</strong>): Average monthly snowpack per weather station<br>
+<li>(<strong>monthly_snowpack</strong>): Average monthly snowpack per weather station<br>
 ([PK] id,<br>
 [FK] Station_id,<br>
 year,<br>
 month,<br>
 hnsum<br>
 )</li>
+</ul>
+<h3 id="tools">Tools </h3>
+<ul>
+<li>Pandas</li>
+<li>Plotly</li>
+<li>pymannkendall</li>
+<li>Stats</li>
+<li>Shapely</li>
+<li>GeoJson</li>
 </ul>
 <h2 id="procedure">Procedure </h2>
 <h3 id="01-data-cleaning">01 Data Cleaning </h3>
